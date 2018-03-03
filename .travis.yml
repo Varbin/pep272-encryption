@@ -14,7 +14,7 @@ install:
   - pip install -r requirements.txt
 
 script:
-  - nosetests --with-coverage --cover-package=pep272-encryption
+  - nosetests --with-coverage --cover-package=pep272_encryption
 
 after_success:
   - codecov
