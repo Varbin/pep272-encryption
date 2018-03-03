@@ -1,1 +1,3 @@
-pycryptodome
+pycrypto
+nose
+codecov
