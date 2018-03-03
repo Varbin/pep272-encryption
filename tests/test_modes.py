@@ -90,4 +90,3 @@ if __name__ == "__main__":
     for i in ("ecb", "cbc", "cfb8", "cfb128", "ofb", "ctr"):
         print(i)
         exec("test_{}()".format(i))
-    ...
