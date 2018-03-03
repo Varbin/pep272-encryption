@@ -1,11 +1,11 @@
-To prevent reinventing the wheel to create a `PEP-272 <https://www.python.org/dev/peps/pep-0272/>`_
-for a new block cipher encryption this library aims to create an extensible framework for new libraries.
-
 .. image:: https://img.shields.io/travis/Varbin/pep272-encryption.svg
     :target: https://travis-ci.org/Varbin/pep272-encryption
 
 .. image:: https://img.shields.io/codecov/c/github/Varbin/pep272-encryption/master.svg
     :target: https://codecov.io/gh/Varbin/pep272-encryption
+
+To prevent reinventing the wheel to create a `PEP-272 <https://www.python.org/dev/peps/pep-0272/>`_
+for a new block cipher encryption this library aims to create an extensible framework for new libraries.
 
 Currently following modes of operation are supported:
 

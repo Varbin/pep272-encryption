@@ -25,9 +25,9 @@ description='Library for easy creation of PEP-272 cipher classes'
 
 try:
     with open('README.rst') as description_file:
-        description_long = description_file.read()
+        long_description = description_file.read()
 except:
-    description_long = description
+    long_description = description
         
 
 args = dict(
@@ -36,9 +36,10 @@ args = dict(
     author=__author__,
     author_email=__email__,
     license=__license__,
+    url=__url__,
 
     description=description,
-    description_long=description_long,
+    long_description=long_description,
 
     packages=['pep272_encryption'],
     classifiers = [
