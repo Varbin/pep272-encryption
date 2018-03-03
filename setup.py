@@ -51,10 +51,4 @@ args = dict(
     ]
 )
 
-try:
-    with open('README.rst', encoding='UTF-8') as readme:
-        args['description_long'] = readme.read()
-except:
-    args['description_long'] = args['description']
-
 setup(**args)
