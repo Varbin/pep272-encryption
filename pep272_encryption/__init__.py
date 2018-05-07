@@ -50,6 +50,7 @@ class PEP272Cipher:
         self.key = key
         self.mode = mode
         self.IV = kwargs.pop('IV', None) or kwargs.pop('iv', None)
+        self._status = self.IV
 
         self.segment_size = kwargs.pop('segment_size', 8)
         self._counter = kwargs.pop('counter', None)
@@ -70,14 +71,14 @@ class PEP272Cipher:
 
         """
         if self.mode in (MODE_CBC, MODE_CFB, MODE_OFB, MODE_PGP):
-            if self.IV is None:
+            if self._status is None:
                 raise TypeError("For CBC, CFB, PGP and OFB mode an IV is "
                                 "required.")
-            if len(self.IV) != self.block_size and self.mode != MODE_PGP:
+            if len(self._status) != self.block_size and self.mode != MODE_PGP:
                 raise ValueError("'IV' length must be block_size ({})".format(
                     self.block_size))
             elif self.mode == MODE_PGP:
-                if not len(self.IV) in (self.block_size, self.block_size+2):
+                if not len(self._status) in (self.block_size, self.block_size+2):
                     raise ValueError(
                         ("'IV' length must be block_size ({})"
                          "or blocksize + 2".format(self.block_size)))
@@ -107,13 +108,13 @@ class PEP272Cipher:
 
         if self.mode == MODE_CFB:
             for block in _block(string, self.segment_size // 8):
-                encrypted_iv = self.encrypt_block(self.key, self.IV)
+                encrypted_iv = self.encrypt_block(self.key, self._status)
                 ecd = xor_strings(encrypted_iv, block)
 
-                iv_p1 = self.IV[self.segment_size//8:]
+                iv_p1 = self._status[self.segment_size//8:]
                 iv_p2 = ecd
 
-                self.IV = iv_p1 + iv_p2
+                self._status = iv_p1 + iv_p2
 
                 out.append(ecd)
 
@@ -122,8 +123,8 @@ class PEP272Cipher:
                 if self.mode == MODE_ECB:
                     ecd = self.encrypt_block(self.key, block, **self.kwargs)
                 elif self.mode == MODE_CBC:
-                    xored = xor_strings(self.IV, block)
-                    ecd = self.IV = self.encrypt_block(self.key, xored,
+                    xored = xor_strings(self._status, block)
+                    ecd = self._status = self.encrypt_block(self.key, xored,
                                                        **self.kwargs)
                 else:
                     raise ValueError("Unknown mode of operation")
@@ -141,13 +142,13 @@ class PEP272Cipher:
 
         if self.mode == MODE_CFB:
             for block in _block(string, self.segment_size // 8):
-                encrypted_iv = self.encrypt_block(self.key, self.IV)
+                encrypted_iv = self.encrypt_block(self.key, self._status)
                 dec = xor_strings(encrypted_iv, block)
 
-                iv_p1 = self.IV[self.segment_size//8:]
+                iv_p1 = self._status[self.segment_size//8:]
                 iv_p2 = block
 
-                self.IV = iv_p1 + iv_p2
+                self._status = iv_p1 + iv_p2
 
                 out.append(dec)
 
@@ -158,8 +159,8 @@ class PEP272Cipher:
                 elif self.mode == MODE_CBC:
                     decrypted_but_not_xored = self.decrypt_block(self.key, block,
                                                                  **self.kwargs)
-                    dec = xor_strings(self.IV, decrypted_but_not_xored)
-                    self.IV = block
+                    dec = xor_strings(self._status, decrypted_but_not_xored)
+                    self._status = block
                 else:
                     raise ValueError("Unknown mode of operation")
 
@@ -195,15 +196,15 @@ Raises NotImplementedError."""
 
         while True:
             if self.mode == MODE_OFB:
-                _next = self.IV
+                _next = self._status
             elif self.mode == MODE_CTR:
                 _next = self._counter()
                 if len(_next) != self.block_size:
                     raise TypeError("Counter length must be block_size")
 
-            self.IV = self.encrypt_block(self.key, _next, **self.kwargs)
+            self._status = self.encrypt_block(self.key, _next, **self.kwargs)
 
-            for k in self.IV:
+            for k in self._status:
                 yield b_ord(k)
 
 
