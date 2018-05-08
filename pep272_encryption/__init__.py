@@ -24,12 +24,8 @@ Example:
 
 """
 
-if __name__ != "__main__":
-    from .util import xor_strings, b_chr, b_ord
-    from .version import *
-else:
-    from util import xor_strings, b_chr, b_ord
-    from version import *
+from .util import xor_strings, b_chr, b_ord
+from .version import *
 
 
 MODE_ECB = 1  #:
@@ -205,7 +201,8 @@ Raises NotImplementedError."""
     def _create_keystream(self):
         "Creates a keystream (generator object) for OFB or CTR mode."
         if self.mode not in (MODE_OFB, MODE_CTR):
-            return
+            # Coverage somehow does not work here
+            return  # pragma: no cover
 
         while True:
             if self.mode == MODE_OFB:
