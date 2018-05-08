@@ -128,7 +128,7 @@ class PEP272Cipher:
 
                 out.append(ecd)
 
-        else:
+        elif self.mode in (MODE_ECB, MODE_CBC):
             for block in _block(string, self.block_size):
                 if self.mode == MODE_ECB:
                     ecd = self.encrypt_block(self.key, block, **self.kwargs)
@@ -136,10 +136,11 @@ class PEP272Cipher:
                     xored = xor_strings(self._status, block)
                     ecd = self._status = self.encrypt_block(self.key, xored,
                                                        **self.kwargs)
-                else:
-                    raise ValueError("Unknown mode of operation")
 
                 out.append(ecd)
+
+        else:
+            raise ValueError("Unknown mode of operation")
 
         return b"".join(out)
 
@@ -163,7 +164,7 @@ class PEP272Cipher:
 
                 out.append(dec)
 
-        else:
+        elif self.mode in (MODE_ECB, MODE_CBC):
             for block in _block(string, self.block_size):
                 if self.mode == MODE_ECB:
                     dec = self.decrypt_block(self.key, block, **self.kwargs)
@@ -176,6 +177,9 @@ class PEP272Cipher:
                     raise ValueError("Unknown mode of operation")
 
                 out.append(dec)
+
+        else:
+            raise ValueError("Unknown mode of operation")
 
         return b"".join(out)
 

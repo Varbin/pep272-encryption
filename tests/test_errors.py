@@ -154,6 +154,35 @@ class InputLengthTestCase(unittest.TestCase):
                 c.decrypt(b' '*i)
             self.assertTrue("block_size" in str(context.exception))
 
+    def test_valid_segemt_size_cfb(self):
+        for i in range(16):
+            cipher_object(mode=MODE_CFB, IV=TEST_IV, segment_size=(1+i)*8)
+
+    def test_invalid_segemt_size_cfb(self):
+        for i in range(16):
+            with self.assertRaises(TypeError) as context:
+                cipher_object(mode=MODE_CFB, IV=TEST_IV, 
+                              segment_size=(1+i)*8+1)
+
+            errstr = str(context.exception)
+            self.assertTrue("segment_size" in errstr and "multiple" in errstr)
+
+            with self.assertRaises(TypeError) as context:
+                cipher_object(mode=MODE_CFB, IV=TEST_IV, 
+                              segment_size=(1+i)*8-1)
+
+            errstr = str(context.exception)
+            self.assertTrue("segment_size" in errstr and "multiple" in errstr)
+
+
+    def test_zero_segemt_size_cfb(self):
+        with self.assertRaises(TypeError) as context:
+                cipher_object(mode=MODE_CFB, IV=TEST_IV, 
+                              segment_size=None)
+
+        self.assertTrue("missing" in str(context.exception))
+
+
     def test_arbitrary_keylength(self):
         for mode in MODES_FREE_LENGTH:
             for i in range(1, 100):
@@ -170,6 +199,23 @@ class KeylengthTestCase(unittest.TestCase):
 
     def test_nonzero_keylength(self):
         DummyCipher(b' ', MODE_ECB)
+
+
+class InvalidModeTestCase(unittest.TestCase):
+    def test_invalid_mode_encryption(self):
+        d = DummyCipher(b' ', mode=700)
+        with self.assertRaises(ValueError) as context:
+            d.encrypt(b' ')
+        
+        self.assertTrue("Unknown mode of operation" in str(context.exception))
+
+    def test_invalid_mode_decryption(self):
+        d = DummyCipher(b' ', mode=700)
+        with self.assertRaises(ValueError) as context:
+            d.decrypt(b' ')        
+
+        self.assertTrue("Unknown mode of operation" in str(context.exception))
+
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)
