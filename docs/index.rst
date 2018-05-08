@@ -6,11 +6,18 @@
 Welcome to PEP272 Encryption's documentation!
 =============================================
 
+.. include:: ../README.rst
+
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
 
+   install.rst
+   tutorial.rst
+   api.rst
+   ack.rst
 
+.. include:: ../CHANGELOG.rst
 
 Indices and tables
 ==================

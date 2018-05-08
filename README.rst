@@ -4,8 +4,10 @@
 .. image:: https://img.shields.io/codecov/c/github/Varbin/pep272-encryption/master.svg
     :target: https://codecov.io/gh/Varbin/pep272-encryption
 
-To prevent reinventing the wheel to create a `PEP-272 <https://www.python.org/dev/peps/pep-0272/>`_
-for a new block cipher encryption this library aims to create an extensible framework for new libraries.
+To prevent reinventing the wheel while creating a 
+`PEP-272 <https://www.python.org/dev/peps/pep-0272/>`_ interface for a new 
+block cipher encryption, this library aims to create an extensible framework 
+for new libraries.
 
 Currently following modes of operation are supported:
 
@@ -15,14 +17,14 @@ Currently following modes of operation are supported:
 - OFB 
 - CTR
 
-The `PGP mode of operation <https://tools.ietf.org/html/rfc4880#section-13.9>`_ is not supported.
-It may be added in the future.
+The `PGP mode of operation <https://tools.ietf.org/html/rfc4880#section-13.9>`_ 
+is not supported. It may be added in the future.
 
 Example
 -------
 
-In this example encrypt_aes(key, block) will encrypt one block of AES while decrypt_aes(key, block)
-will decrypt one.
+In this example ``encrypt_aes(key, block)`` will encrypt one block of AES while
+``decrypt_aes(key, block)`` will decrypt one.
 
 >>> from pep272_encryption import PEP272Cipher, MODE_ECB
 >>> class AESCipher:
@@ -31,10 +33,10 @@ will decrypt one.
 ...    """
 ...    block_size = 16
 ...
-...    def encrypt_block(self, key, block):
+...    def encrypt_block(self, key, block, **kwargs):
 ...        return encrypt_aes(key, block)
 ...        
-...    def decrypt_block(self, key, block):
+...    def decrypt_block(self, key, block, **kwargs):
 ...        return decrypt_aes(key, block)
 ...     
 >>> cipher = AESCipher(b'\00'*16, MODE_ECB)

@@ -1,10 +1,8 @@
 """
-Util library for compatability with Python 2 and 3.
+Utility library for compatability with Python 2 and 3.
 
-Functions:
-    b_ord(n): like ord(n) over the iteration product of a bytestring
-    b_chr(n): bytestring from number between 0-255
-    xor_strings(s, t): xor two bytestrings
+This includes versions of ``chr`` and ``ord``-methods to work with bytes
+with Python 3 and strings with Python 2.
 """
 
 import sys

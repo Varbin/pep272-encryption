@@ -1,21 +1,27 @@
 #!python3
 """\
-This module creates a PEP272 cipher object class.
+This module creates PEP-272 cipher object classes for building block ciphers
+in python.
 
-To use inherit the PEP272Cipher and overwrite
-[de]encrypt_block(self, key, string) and set the block_size attribute.
+To use, inherit the PEP272Cipher and overwrite
+``encrypt_block`` or ``decrypt_block(self, key, string, **kwargs)`` methods
+and set the block_size attribute.
 
 
 Example:
 
-class YourCipher(PEP272Cipher):
-    block_size=8
+::
 
-    def encrypt_block(self, key, string):
-        ...
+ class YourCipher(PEP272Cipher):
+     block_size=8
 
-    def decrypt_block(self, key_string):
-        ...
+     def encrypt_block(self, key, string, **kwargs):
+         ...
+
+     def decrypt_block(self, key_string, **kwargs):
+         ...
+
+
 """
 
 if __name__ != "__main__":
@@ -25,20 +31,23 @@ else:
     from util import xor_strings, b_chr, b_ord
     from version import *
 
-MODE_ECB = 1
-MODE_CBC = 2
-MODE_CFB = 3
-MODE_PGP = 4
-MODE_OFB = 5
-MODE_CTR = 6
+
+MODE_ECB = 1  #:
+MODE_CBC = 2  #:
+MODE_CFB = 3  #:
+MODE_PGP = 4  #:
+MODE_OFB = 5  #:
+MODE_CTR = 6  #:
 
 
 class PEP272Cipher:
     """
-    A cipher object as defined in PEP272.
+    A cipher object as defined in PEP-272_.
 
-    Subclass and overwrite encrypt_/decrypt_block methods and
+    Subclass and overwrite the encrypt_block and decrypt_block methods and
     the block_size attribute.
+
+    .. _PEP-272: https://www.python.org/dev/peps/pep-0272/
 
     """
     block_size = NotImplemented
@@ -101,6 +110,7 @@ class PEP272Cipher:
 
 
     def encrypt(self, string):
+        """blabla docstring"""
         if self.mode in (MODE_OFB, MODE_CTR):
             return self._encrypt_with_keystream(string)
 
@@ -135,6 +145,7 @@ class PEP272Cipher:
 
 
     def decrypt(self, string):
+        """blabla docstring"""
         if self.mode in (MODE_OFB, MODE_CTR):
             return self.encrypt(string)
 
