@@ -29,8 +29,10 @@ of a byte string alike object (e.g. bytearray)."
 
 def xor_strings(one, two):
     """xor to bytestrings together.
+
     Keyword arguments:
     one -- string one
     two -- string two
     """
-    return b"".join(b_chr(b_ord(x) ^ b_ord(y)) for x, y in zip(one, two))
+    one, two = bytearray(one), bytearray(two)
+    return bytes(bytearray(x ^ y for x, y in zip(one, two)))
