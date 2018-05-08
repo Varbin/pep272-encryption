@@ -193,9 +193,9 @@ Raises NotImplementedError."""
 
     def _encrypt_with_keystream(self, data):
         "Encrypts data with the set keystream."
-        xor = [b_chr(x ^ y) for (x, y) in zip(map(b_ord, data),
+        xor = [x ^ y for (x, y) in zip(map(b_ord, data),
                                               self._keystream)]
-        return b"".join(xor)
+        return bytes(bytearray(xor))  # Faster
 
 
     def _create_keystream(self):
