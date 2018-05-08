@@ -173,8 +173,6 @@ class PEP272Cipher:
                                                                  **self.kwargs)
                     dec = xor_strings(self._status, decrypted_but_not_xored)
                     self._status = block
-                else:
-                    raise ValueError("Unknown mode of operation")
 
                 out.append(dec)
 
