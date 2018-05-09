@@ -10,7 +10,6 @@ import sys
 try:
     from ._fast_xor import _fast_xor
 except ImportError:
-    raise
     _fast_xor = None
 
 PY_3 = sys.version_info.major >= 3
