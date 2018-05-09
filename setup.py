@@ -77,6 +77,7 @@ args = dict(
 
 
 def cython_setup(**args):
+    print("[   ] Configuration: Cythonize")
     nargs = args.copy()
     extensions = [
         Extension(
@@ -87,6 +88,7 @@ def cython_setup(**args):
     setup(**nargs)
 
 def cspeed_setup(**args):
+    print("[   ] Configuration: Use C-Extension")
     nargs = args.copy()
     extensions = [
         Extension(

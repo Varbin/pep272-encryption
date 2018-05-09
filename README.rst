@@ -4,6 +4,8 @@
 .. image:: https://img.shields.io/codecov/c/github/Varbin/pep272-encryption/master.svg
     :target: https://codecov.io/gh/Varbin/pep272-encryption
 
+`Documentation <https://sbiewald.de/docs/pep272-encryption/>`_
+
 To prevent reinventing the wheel while creating a 
 `PEP-272 <https://www.python.org/dev/peps/pep-0272/>`_ interface for a new 
 block cipher encryption, this library aims to create an extensible framework 

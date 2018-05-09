@@ -1,3 +1,5 @@
+.. _tutorial:
+
 Tutorial
 ========
 
@@ -57,7 +59,7 @@ In Python, an unoptimized version of TEA can be written like following:
 1. Project skeleton
 -------------------
 
-To begin, write import the most important pep272-encryption module:
+To begin, import the pep272-encryption module:
 
 ::
 
@@ -133,7 +135,7 @@ Example: Encrypt some data in OFB mode.
 ::
 
    >>> import tea
-   >>> cipher = tea.new(b'16-bytes key 123', mode=tea.MODE_OFB, IV=b'\00'*9)
+   >>> cipher = tea.new(b'16-bytes key 123', mode=tea.MODE_OFB, IV=b'\00'*8)
    >>> cipher.encrypt(b'123456'*6)
    b"k\xaf F\xfb*\xeb\x00'kP\x9c\xc9M\xb99\x1cy\xda\x99\xb1\xf0H\x14\x9c\xae@\xddxe`\x01\x85\xc9p\x85"
 

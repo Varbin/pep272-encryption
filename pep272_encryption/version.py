@@ -9,7 +9,7 @@ Following are defined:
 """
 
 #: Version number.
-__version__ = "0.1"
+__version__ = "0.2"
 
 #: Name of author(s).
 __author__ = "Simon Biewald"

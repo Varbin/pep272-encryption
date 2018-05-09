@@ -1,3 +1,5 @@
+.. _install:
+
 Installation
 ------------
 
@@ -22,13 +24,20 @@ Development version
 To get the newest features, it is possible to directly install the latest
 version from GitHub_:
 
-``pip install git+https://github.com/Varbin/pep272-encryption``
+::
+
+    $ pip install git+https://github.com/Varbin/pep272-encryption
+
 
 .. _GitHub: https://github.com/Varbin/pep272-encryption
 
 Supported platforms
 *******************
 
-``pep272-encryption`` is pure Python, so any architecture. 
+``pep272-encryption`` is pure Python with optional Cython speedups,
+so any architecture is supported. 
 It supports Python 2.7 and 3.4+. It might work with Python 3.3, but is not
 tested with it.
+
+For tests CPython is required because the (old) PyCrypto package is required.
+PyCryptodome will **not work**!
