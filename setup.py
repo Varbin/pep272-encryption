@@ -7,19 +7,43 @@ Usage (direct):
     setup.py install  # Installation
 """
 
+import platform
 import sys
+import traceback
 
 try:
     from setuptools import setup
+    from setuptools import Extension
 except ImportError:
     from distutils.core import setup
+    from distutils.extension import Extension
     sys.stderr.write("Warning: setuptools not found! "
                      "Falling back to raw distutils.\n")
     sys.stderr.write(" -> This may not properly register packages "
                      "within python.\n\n")
 
+# Cython Speedup
+
+try:
+    import Cython
+except ImportError:
+    CYTHON = False
+else:
+    from Cython.Build import cythonize
+    CYTHON = True
+
+CPYTHON = platform.python_implementation() == "CPython"
+
+possible_builds = 1  # C-Ext is optional and may not work
+
+if CPYTHON:
+    possible_builds +=1
+    if CYTHON:
+        possible_builds +=1
+
 with open('pep272_encryption/version.py') as version_file:
     exec(version_file.read())
+
 
 description='Library for easy creation of PEP-272 cipher classes'
 
@@ -51,4 +75,79 @@ args = dict(
     ]
 )
 
-setup(**args)
+
+def cython_setup(**args):
+    nargs = args.copy()
+    extensions = [
+        Extension(
+            "pep272_encryption._fast_xor",
+            ["pep272_encryption/_fast_xor.pyx"]
+    )]
+    nargs["ext_modules"] = cythonize(extensions)
+    setup(**nargs)
+
+def cspeed_setup(**args):
+    nargs = args.copy()
+    extensions = [
+        Extension(
+            "pep272_encryption._fast_xor",
+            ["pep272_encryption/_fast_xor.c"]
+    )]
+    nargs["ext_modules"] = extensions
+    setup(**nargs)
+
+for i in range(possible_builds):
+    i += 1
+    print("[{0}/{1}] Starting...".format(i, possible_builds))
+
+    if CYTHON and CPYTHON:
+        if i == 1:
+            try:
+                cython_setup(**args)
+                break
+            except:
+                traceback.print_exc()
+                print("[{0}/{1}] Failed!...".format(i, possible_builds))
+        elif i == 2:
+            try:
+                cspeed_setup(**args)
+                break
+            except:
+                traceback.print_exc()
+                print("[{0}/{1}] Failed!...".format(i, possible_builds))
+        else:
+            try:
+                setup(**args)
+                break
+            except:
+                traceback.print_exc()
+                print("[{0}/{1}] Failed!...".format(i, possible_builds))
+
+    elif CPYTHON and not CYTHON:
+        if i == 1:
+            try:
+                cspeed_setup(**args)
+                break
+            except:
+                traceback.print_exc()
+                print("[{0}/{1}] Failed!...".format(i, possible_builds))
+        else:
+            try:
+                setup(**args)
+                break
+            except:
+                traceback.print_exc()
+                print("[{0}/{1}] Failed!...".format(i, possible_builds))
+    else:
+        try:
+            setup(**args)
+            break
+        except:
+            traceback.print_exc()
+            print("[{0}/{1}] Failed!...".format(i, possible_builds))
+
+else:
+    print("Setup failed!")
+    sys.exit(1)
+
+print("[{0}/{1}] Success! Setup exits.".format(i, possible_builds))

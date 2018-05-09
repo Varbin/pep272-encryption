@@ -7,6 +7,12 @@ with Python 3 and strings with Python 2.
 
 import sys
 
+try:
+    from ._fast_xor import _fast_xor
+except ImportError:
+    raise
+    _fast_xor = None
+
 PY_3 = sys.version_info.major >= 3
 
 if PY_3:
@@ -34,5 +40,11 @@ def xor_strings(one, two):
     one -- string one
     two -- string two
     """
-    one, two = bytearray(one), bytearray(two)
-    return bytes(bytearray(x ^ y for x, y in zip(one, two)))
+
+    if _fast_xor is None:
+        one, two = bytearray(one), bytearray(two)
+        result = bytearray(x ^ y for x, y in zip(one, two))
+    else:
+        result = _fast_xor(one, len(one), two, len(two))
+
+    return bytes(result)
