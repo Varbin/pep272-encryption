@@ -61,6 +61,7 @@ args = dict(
     author_email=__email__,
     license=__license__,
     url=__url__,
+    platforms='any',
 
     description=description,
     long_description=long_description,
@@ -72,7 +73,8 @@ args = dict(
         'Programming Language :: Python :: 3',
         'Topic :: Security :: Cryptography',
         'Topic :: Software Development :: Libraries :: Python Modules',
-    ]
+    ],
+    python_requires='>=2.7,!=3.0.*,!=3.1.*,!=3.2.*',
 )
 
 
