@@ -4,6 +4,9 @@
 .. image:: https://img.shields.io/codecov/c/github/Varbin/pep272-encryption/master.svg
     :target: https://codecov.io/gh/Varbin/pep272-encryption
 
+.. image:: https://ci.appveyor.com/api/projects/status/github/Varbin/pep272-encryption?svg=true
+    :target: https://ci.appveyor.com/project/Varbin/pep272-encryption/
+
 `Documentation <https://sbiewald.de/docs/pep272-encryption/>`_
 
 To prevent reinventing the wheel while creating a 
