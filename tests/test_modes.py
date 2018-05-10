@@ -1,7 +1,11 @@
 #!/usr/bin/env python3
+import Crypto
 from Crypto.Cipher import AES  # Real PyCrypto only!
 from Crypto.Util import Counter
 from pep272_encryption import PEP272Cipher
+
+IS_DOME = tuple(
+    map(int, Crypto.__version__.split('.')))
 
 TEST_KEY = b'\00' * 16
 TEST_IV = b'\00' * 16
@@ -21,6 +25,16 @@ class CipherClass(PEP272Cipher):
 
     def decrypt_block(self, key, block):
         return AES.new(key, AES.MODE_ECB).decrypt(block)
+
+
+class NullCipher(PEP272Cipher):
+    block_size = 16
+
+    def encrypt_block(self, key, block):
+        return block
+
+    def decrypt_block(self, key, block):
+        return block
 
 
 def cipher_objects(mode, **kwargs):
@@ -77,14 +91,18 @@ def test_ofb():
 
 
 def test_ctr():
-    reference, compare = cipher_objects(AES.MODE_CTR, counter=FakeCounter())
-    assert reference.encrypt(TEST_BLOCK) == compare.encrypt(TEST_BLOCK)
+    if not IS_DOME:
+        reference, compare = cipher_objects(
+            AES.MODE_CTR, counter=FakeCounter())
+        assert reference.encrypt(TEST_BLOCK) == compare.encrypt(TEST_BLOCK)
 
-    reference, compare = cipher_objects(AES.MODE_CTR, counter=FakeCounter())
-    assert reference.decrypt(TEST_BLOCK) == compare.decrypt(TEST_BLOCK)
+        reference, compare = cipher_objects(
+            AES.MODE_CTR, counter=FakeCounter())
+        assert reference.decrypt(TEST_BLOCK) == compare.decrypt(TEST_BLOCK)
 
-
-
+    nullcipher = NullCipher(TEST_KEY, AES.MODE_CTR, counter=FakeCounter())
+    assert nullcipher.encrypt(TEST_BLOCK) == FakeCounter()()*3
+    
 
 if __name__ == "__main__":
     for i in ("ecb", "cbc", "cfb8", "cfb128", "ofb", "ctr"):
