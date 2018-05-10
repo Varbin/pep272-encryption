@@ -98,6 +98,21 @@ def cspeed_setup(**args):
     nargs["ext_modules"] = extensions
     setup(**nargs)
 
+print("Important note:")
+print("---------------")
+print()
+print("This module supports optimization with Cython.")
+print()
+print("Depending on your software installation (e.g. compiler or Cython), "
+      "it may or not work. If Cython is not installed it falls back to a "
+      "pre-generated C-file, if no compiler is installed or another 'edition' "
+      "like PyPy or Jython is used, the pure-Python-module will be used.")
+print("The setup will not fail - it will fall back to the unoptimized "
+      "code if using Cython fails and shows each try with a counter.")
+print()
+print("Even on commands like 'sdist' the build counter will appear, but "
+      "can safely be ignored.")
+print()
 for i in range(possible_builds):
     i += 1
     print("[{0}/{1}] Starting...".format(i, possible_builds))
