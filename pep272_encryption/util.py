@@ -1,5 +1,5 @@
 """
-Utility library for compatability with Python 2 and 3.
+Utility library for compatibility with Python 2 and 3.
 
 This includes versions of ``chr`` and ``ord``-methods to work with bytes
 with Python 3 and strings with Python 2.
