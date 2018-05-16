@@ -864,7 +864,7 @@ static const char __pyx_k_lb[] = "lb";
 static const char __pyx_k_main[] = "__main__";
 static const char __pyx_k_test[] = "__test__";
 static const char __pyx_k_range[] = "range";
-static const char __pyx_k_fast_xor[] = "_fast_xor";
+static const char __pyx_k_fast_xor[] = "fast_xor";
 static const char __pyx_k_cline_in_traceback[] = "cline_in_traceback";
 static const char __pyx_k_pep272_encryption__fast_xor[] = "pep272_encryption._fast_xor";
 static const char __pyx_k_pep272_encryption__fast_xor_pyx[] = "pep272_encryption/_fast_xor.pyx";
@@ -881,30 +881,30 @@ static PyObject *__pyx_n_s_pep272_encryption__fast_xor;
 static PyObject *__pyx_kp_s_pep272_encryption__fast_xor_pyx;
 static PyObject *__pyx_n_s_range;
 static PyObject *__pyx_n_s_test;
-static PyObject *__pyx_pf_17pep272_encryption_9_fast_xor__fast_xor(CYTHON_UNUSED PyObject *__pyx_self, unsigned char *__pyx_v_a, int __pyx_v_la, unsigned char *__pyx_v_b, int __pyx_v_lb); /* proto */
+static PyObject *__pyx_pf_17pep272_encryption_9_fast_xor_fast_xor(CYTHON_UNUSED PyObject *__pyx_self, unsigned char *__pyx_v_a, int __pyx_v_la, unsigned char *__pyx_v_b, int __pyx_v_lb); /* proto */
 static PyObject *__pyx_tuple_;
 static PyObject *__pyx_codeobj__2;
 
 /* "pep272_encryption/_fast_xor.pyx":4
  * 
  * @cython.embedsignature(True)
- * def _fast_xor(unsigned char *a, int la, unsigned char *b, int lb):             # <<<<<<<<<<<<<<
+ * def fast_xor(unsigned char *a, int la, unsigned char *b, int lb):             # <<<<<<<<<<<<<<
  *     """
  *     Fast bitwise xor between to buffers.
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_17pep272_encryption_9_fast_xor_1_fast_xor(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_17pep272_encryption_9_fast_xor__fast_xor[] = "_fast_xor(unsigned char *a, int la, unsigned char *b, int lb)\n\n    Fast bitwise xor between to buffers.\n\n    The correct lengths have to be passed to work and security,\n    output length is min(la, lb), returns bytearray.\n    ";
-static PyMethodDef __pyx_mdef_17pep272_encryption_9_fast_xor_1_fast_xor = {"_fast_xor", (PyCFunction)__pyx_pw_17pep272_encryption_9_fast_xor_1_fast_xor, METH_VARARGS|METH_KEYWORDS, __pyx_doc_17pep272_encryption_9_fast_xor__fast_xor};
-static PyObject *__pyx_pw_17pep272_encryption_9_fast_xor_1_fast_xor(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_17pep272_encryption_9_fast_xor_1fast_xor(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_17pep272_encryption_9_fast_xor_fast_xor[] = "fast_xor(unsigned char *a, int la, unsigned char *b, int lb)\n\n    Fast bitwise xor between to buffers.\n\n    The correct lengths have to be passed to work and security,\n    output length is min(la, lb), returns bytearray.\n    ";
+static PyMethodDef __pyx_mdef_17pep272_encryption_9_fast_xor_1fast_xor = {"fast_xor", (PyCFunction)__pyx_pw_17pep272_encryption_9_fast_xor_1fast_xor, METH_VARARGS|METH_KEYWORDS, __pyx_doc_17pep272_encryption_9_fast_xor_fast_xor};
+static PyObject *__pyx_pw_17pep272_encryption_9_fast_xor_1fast_xor(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   unsigned char *__pyx_v_a;
   int __pyx_v_la;
   unsigned char *__pyx_v_b;
   int __pyx_v_lb;
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("_fast_xor (wrapper)", 0);
+  __Pyx_RefNannySetupContext("fast_xor (wrapper)", 0);
   {
     static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_a,&__pyx_n_s_la,&__pyx_n_s_b,&__pyx_n_s_lb,0};
     PyObject* values[4] = {0,0,0,0};
@@ -932,23 +932,23 @@ static PyObject *__pyx_pw_17pep272_encryption_9_fast_xor_1_fast_xor(PyObject *__
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_la)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("_fast_xor", 1, 4, 4, 1); __PYX_ERR(0, 4, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("fast_xor", 1, 4, 4, 1); __PYX_ERR(0, 4, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
         if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_b)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("_fast_xor", 1, 4, 4, 2); __PYX_ERR(0, 4, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("fast_xor", 1, 4, 4, 2); __PYX_ERR(0, 4, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  3:
         if (likely((values[3] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_lb)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("_fast_xor", 1, 4, 4, 3); __PYX_ERR(0, 4, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("fast_xor", 1, 4, 4, 3); __PYX_ERR(0, 4, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "_fast_xor") < 0)) __PYX_ERR(0, 4, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "fast_xor") < 0)) __PYX_ERR(0, 4, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 4) {
       goto __pyx_L5_argtuple_error;
@@ -965,20 +965,20 @@ static PyObject *__pyx_pw_17pep272_encryption_9_fast_xor_1_fast_xor(PyObject *__
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("_fast_xor", 1, 4, 4, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 4, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("fast_xor", 1, 4, 4, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 4, __pyx_L3_error)
   __pyx_L3_error:;
-  __Pyx_AddTraceback("pep272_encryption._fast_xor._fast_xor", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("pep272_encryption._fast_xor.fast_xor", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_17pep272_encryption_9_fast_xor__fast_xor(__pyx_self, __pyx_v_a, __pyx_v_la, __pyx_v_b, __pyx_v_lb);
+  __pyx_r = __pyx_pf_17pep272_encryption_9_fast_xor_fast_xor(__pyx_self, __pyx_v_a, __pyx_v_la, __pyx_v_b, __pyx_v_lb);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_17pep272_encryption_9_fast_xor__fast_xor(CYTHON_UNUSED PyObject *__pyx_self, unsigned char *__pyx_v_a, int __pyx_v_la, unsigned char *__pyx_v_b, int __pyx_v_lb) {
+static PyObject *__pyx_pf_17pep272_encryption_9_fast_xor_fast_xor(CYTHON_UNUSED PyObject *__pyx_self, unsigned char *__pyx_v_a, int __pyx_v_la, unsigned char *__pyx_v_b, int __pyx_v_lb) {
   int __pyx_v_i;
   PyObject *__pyx_v_c = 0;
   PyObject *__pyx_r = NULL;
@@ -988,7 +988,7 @@ static PyObject *__pyx_pf_17pep272_encryption_9_fast_xor__fast_xor(CYTHON_UNUSED
   int __pyx_t_3;
   PyObject *__pyx_t_4 = NULL;
   PyObject *__pyx_t_5 = NULL;
-  __Pyx_RefNannySetupContext("_fast_xor", 0);
+  __Pyx_RefNannySetupContext("fast_xor", 0);
 
   /* "pep272_encryption/_fast_xor.pyx":12
  *     """
@@ -1061,7 +1061,7 @@ static PyObject *__pyx_pf_17pep272_encryption_9_fast_xor__fast_xor(CYTHON_UNUSED
   /* "pep272_encryption/_fast_xor.pyx":4
  * 
  * @cython.embedsignature(True)
- * def _fast_xor(unsigned char *a, int la, unsigned char *b, int lb):             # <<<<<<<<<<<<<<
+ * def fast_xor(unsigned char *a, int la, unsigned char *b, int lb):             # <<<<<<<<<<<<<<
  *     """
  *     Fast bitwise xor between to buffers.
  */
@@ -1070,7 +1070,7 @@ static PyObject *__pyx_pf_17pep272_encryption_9_fast_xor__fast_xor(CYTHON_UNUSED
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_4);
   __Pyx_XDECREF(__pyx_t_5);
-  __Pyx_AddTraceback("pep272_encryption._fast_xor._fast_xor", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("pep272_encryption._fast_xor.fast_xor", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_c);
@@ -1131,7 +1131,7 @@ static int __Pyx_InitCachedConstants(void) {
   /* "pep272_encryption/_fast_xor.pyx":4
  * 
  * @cython.embedsignature(True)
- * def _fast_xor(unsigned char *a, int la, unsigned char *b, int lb):             # <<<<<<<<<<<<<<
+ * def fast_xor(unsigned char *a, int la, unsigned char *b, int lb):             # <<<<<<<<<<<<<<
  *     """
  *     Fast bitwise xor between to buffers.
  */
@@ -1249,11 +1249,11 @@ PyMODINIT_FUNC PyInit__fast_xor(void)
   /* "pep272_encryption/_fast_xor.pyx":4
  * 
  * @cython.embedsignature(True)
- * def _fast_xor(unsigned char *a, int la, unsigned char *b, int lb):             # <<<<<<<<<<<<<<
+ * def fast_xor(unsigned char *a, int la, unsigned char *b, int lb):             # <<<<<<<<<<<<<<
  *     """
  *     Fast bitwise xor between to buffers.
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_17pep272_encryption_9_fast_xor_1_fast_xor, NULL, __pyx_n_s_pep272_encryption__fast_xor); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 4, __pyx_L1_error)
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_17pep272_encryption_9_fast_xor_1fast_xor, NULL, __pyx_n_s_pep272_encryption__fast_xor); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_fast_xor, __pyx_t_1) < 0) __PYX_ERR(0, 4, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;

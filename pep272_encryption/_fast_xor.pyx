@@ -1,7 +1,7 @@
 cimport cython
 
 @cython.embedsignature(True)
-def _fast_xor(unsigned char *a, int la, unsigned char *b, int lb):
+def fast_xor(unsigned char *a, int la, unsigned char *b, int lb):
     """
     Fast bitwise xor between to buffers.
 
