@@ -1,6 +1,11 @@
 Changelog
 =========
 
+0.3
+---
+
+ - New: ``PEP272Cipher`` is a new style class on Python 2.
+
 0.2 (latest stable)
 -------------------
 
