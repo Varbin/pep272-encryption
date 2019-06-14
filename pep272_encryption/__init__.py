@@ -36,7 +36,7 @@ MODE_OFB = 5  #:
 MODE_CTR = 6  #:
 
 
-class PEP272Cipher:
+class PEP272Cipher(object):
     """
     A cipher class as defined in PEP-272_.
 
