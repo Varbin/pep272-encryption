@@ -1,11 +1,7 @@
 #!/usr/bin/env python3
-import Crypto
-from Crypto.Cipher import AES  # Real PyCrypto only!
-from Crypto.Util import Counter
+from Crypto.Cipher import AES
 from pep272_encryption import PEP272Cipher
 
-IS_DOME = tuple(
-    map(int, Crypto.__version__.split('.')))
 
 TEST_KEY = b'\00' * 16
 TEST_IV = b'\00' * 16
@@ -20,20 +16,20 @@ class FakeCounter:
 class CipherClass(PEP272Cipher):
     block_size = 16
 
-    def encrypt_block(self, key, block):
+    def encrypt_block(self, key, block, **kwargs):
         return AES.new(key, AES.MODE_ECB).encrypt(block)
 
-    def decrypt_block(self, key, block):
+    def decrypt_block(self, key, block, **kwargs):
         return AES.new(key, AES.MODE_ECB).decrypt(block)
 
 
-class NullCipher(PEP272Cipher):
+class Identity(PEP272Cipher):
     block_size = 16
 
-    def encrypt_block(self, key, block):
+    def encrypt_block(self, key, block, **kwargs):
         return block
 
-    def decrypt_block(self, key, block):
+    def decrypt_block(self, key, block, **kwargs):
         return block
 
 
@@ -78,7 +74,7 @@ def test_cfb128():
     assert reference.encrypt(TEST_BLOCK) == compare.encrypt(TEST_BLOCK)
 
     reference, compare2 = cipher_objects(AES.MODE_CFB, IV=TEST_IV,
-                                        segment_size=128)
+                                         segment_size=128)
     assert reference.decrypt(TEST_BLOCK) == compare2.decrypt(TEST_BLOCK)
 
 
@@ -91,16 +87,8 @@ def test_ofb():
 
 
 def test_ctr():
-    if not IS_DOME:
-        reference, compare = cipher_objects(
-            AES.MODE_CTR, counter=FakeCounter())
-        assert reference.encrypt(TEST_BLOCK) == compare.encrypt(TEST_BLOCK)
-
-        reference, compare = cipher_objects(
-            AES.MODE_CTR, counter=FakeCounter())
-        assert reference.decrypt(TEST_BLOCK) == compare.decrypt(TEST_BLOCK)
-
-    nullcipher = NullCipher(TEST_KEY, AES.MODE_CTR, counter=FakeCounter())
+    # Unfortunately PyCryptome is not PEP compliant anymore.
+    nullcipher = Identity(TEST_KEY, AES.MODE_CTR, counter=FakeCounter())
     assert nullcipher.encrypt(TEST_BLOCK) == FakeCounter()()*3
     
 

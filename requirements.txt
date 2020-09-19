@@ -1,6 +1,8 @@
-pycrypto~=2.6.0; platform_system!='Windows' and platform_python_implementation=="CPython"
-pycryptodome; platform_system=='Windows' or  platform_python_implementation!="CPython"
-nose
+pycryptodome
+pytest>=3.0.0
+pytest-runner>=2.0.0
+setuptools>=27.3
+wheel
 codecov
 sphinx
 sphinx_rtd_theme

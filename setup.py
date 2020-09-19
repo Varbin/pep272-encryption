@@ -79,13 +79,15 @@ args = dict(
     long_description=long_description,
 
     packages=['pep272_encryption'],
-    classifiers = [
+    classifiers=[
         'License :: CC0 1.0 Universal (CC0 1.0) Public Domain Dedication',
         'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 3',
         'Topic :: Security :: Cryptography',
         'Topic :: Software Development :: Libraries :: Python Modules',
     ],
+    setup_requires=['pytest-runner'],
+    tests_require=['pytest', 'pycryptodome'],
     python_requires='>=2.7,!=3.0.*,!=3.1.*,!=3.2.*',
 )
 
