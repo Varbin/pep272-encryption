@@ -120,13 +120,11 @@ def xor_strings(one, two):
     :rtype: bytes
     """
 
-    if fast_xor is None:
-        one, two = bytearray(one), bytearray(two)
-        result = bytearray(x ^ y for x, y in zip(one, two))
-    else:
-        result = fast_xor(one, len(one), two, len(two))
+    if fast_xor is not None:
+        return fast_xor(one, two)
 
-    return bytes(result)
+    one, two = bytearray(one), bytearray(two)
+    return bytes(bytearray(x ^ y for x, y in zip(one, two)))
 
 
 class Counter:
