@@ -1,11 +1,18 @@
-.. image:: https://img.shields.io/travis/Varbin/pep272-encryption.svg
-    :target: https://travis-ci.org/Varbin/pep272-encryption
+.. image:: https://github.com/varbin/pep272-encryption/workflows/QA/badge.svg
+   :target: https://github.com/varbin/pep272-encryption/actions
+   :alt: Github Actions: QA
 
-.. image:: https://img.shields.io/codecov/c/github/Varbin/pep272-encryption/master.svg
-    :target: https://codecov.io/gh/Varbin/pep272-encryption
+.. image:: https://api.codeclimate.com/v1/badges/858bff61374ca5d7fd93/maintainability
+   :target: https://codeclimate.com/github/Varbin/pep272-encryption/maintainability
+   :alt: Maintainability
 
-.. image:: https://ci.appveyor.com/api/projects/status/github/Varbin/pep272-encryption?svg=true
-    :target: https://ci.appveyor.com/project/Varbin/pep272-encryption/
+.. image:: https://api.codeclimate.com/v1/badges/858bff61374ca5d7fd93/test_coverage
+   :target: https://codeclimate.com/github/Varbin/pep272-encryption/test_coverage
+   :alt: Test Coverage
+
+.. image:: https://readthedocs.org/projects/pep272-encryption/badge/?version=latest
+    :target: https://pep272-encryption.readthedocs.io/en/latest/?badge=latest
+    :alt: Documentation Status
 
 `Documentation <https://sbiewald.de/docs/pep272-encryption/>`_
 
@@ -51,5 +58,5 @@ b'f\xe9K\xd4\xef\x8a,;\x88L\xfaY\xca4+.'
 License
 -------
 
-This project is licensed under `CC0 <https://creativecommons.org/publicdomain/zero/1.0/>`_ 
-(public domain).
+This project is `CC0 <https://creativecommons.org/publicdomain/zero/1.0/>`_ licensed
+(= public domain).

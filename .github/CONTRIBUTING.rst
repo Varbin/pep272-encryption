@@ -3,7 +3,7 @@ How to contribute
 
 Thanks for reading and helping this project.
 
-The idea behind the project is to create a library to easily create standartized libraries
+The idea behind the project is to create a library to easily create standardized libraries
 for symmetric ciphers. If you know anything which brings it close to the perfect library 
 please tell.
 
