@@ -20,14 +20,29 @@ MODES_WITH_IV = [MODE_CBC, MODE_CFB, MODE_OFB, MODE_PGP]
 MODES_FREE_LENGTH = [MODE_OFB, MODE_CTR]
 MODES_BLOCK_LENGTH = [MODE_ECB, MODE_CBC, MODE_CFB]
 
+
 class DummyCipher(PEP272Cipher):
     block_size = 16
+
+    def encrypt_block(self, key, block, **kwargs):
+        return PEP272Cipher.encrypt_block(self, key, block, **kwargs)
+
+    def decrypt_block(self, key, block, **kwargs):
+        return PEP272Cipher.encrypt_block(self, key, block, **kwargs)
+
 
 def cipher_object(mode, **kwargs):
     """Creates ONE working cipher object."""
     return (
         DummyCipher(TEST_KEY, mode, **kwargs)
         )
+
+
+class AbcCannotInstantiated(unittest.TestCase):
+    def test_instantiation(self):
+        with self.assertRaises(TypeError):
+            PEP272Cipher(b'\x00'*16, mode=MODE_ECB)
+
 
 class NotImplementedTestCase(unittest.TestCase):
     def test_not_implemented_encryption(self):

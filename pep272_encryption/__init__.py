@@ -24,7 +24,13 @@ Example:
 
 """
 
-from abc import abstractmethod, ABCMeta
+from abc import abstractmethod
+
+try:
+    from abc import ABC
+except ImportError:
+    from abc import ABCMeta
+    ABC = ABCMeta('ABC', (object,), {})
 
 from .util import xor_strings, b_chr, b_ord
 from .version import *  # noqa
@@ -38,7 +44,7 @@ MODE_OFB = 5  #:
 MODE_CTR = 6  #:
 
 
-class PEP272Cipher(object):
+class PEP272Cipher(ABC):
     """
     A cipher class as defined in PEP-272_.
 
@@ -84,7 +90,6 @@ class PEP272Cipher(object):
     .. _PEP-272: https://www.python.org/dev/peps/pep-0272/
 
     """
-    __metaclass__ = ABCMeta
 
     block_size = NotImplemented
     IV = None
