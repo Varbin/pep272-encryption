@@ -127,6 +127,27 @@ def xor_strings(one, two):
     return bytes(bytearray(x ^ y for x, y in zip(one, two)))
 
 
+def split_blocks(bytestring, block_size):
+    """Splits bytestring in block_size-sized blocks.
+
+    Raises an error if len(string) % blocksize != 0.
+    """
+    if block_size == 1:
+        return map(b_chr, bytearray(bytestring))
+
+    rest_size = len(bytestring) % block_size
+
+    if rest_size:
+        raise ValueError("Input 'bytestring' must be a multiple of "
+                         "block_size / segment_size (CFB mode) in length")
+
+    block_count = len(bytestring) // block_size
+
+    return (
+        bytestring[i * block_size:((i + 1) * block_size)]
+        for i in range(block_count))
+
+
 class Counter:
     r"""Counter for usage in CTR mode.
 

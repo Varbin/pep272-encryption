@@ -32,7 +32,7 @@ except ImportError:
     from abc import ABCMeta
     ABC = ABCMeta('ABC', (object,), {})
 
-from .util import xor_strings, b_chr, b_ord
+from .util import xor_strings, b_chr, b_ord, split_blocks
 from .version import *  # noqa
 
 
@@ -200,7 +200,7 @@ class PEP272Cipher(ABC):
 
         out = []
 
-        for block in _block(string, self.block_size):
+        for block in split_blocks(string, self.block_size):
             if self.mode == MODE_ECB:
                 ecd = self.encrypt_block(self.key, block, **self.kwargs)
             else:  # self.mode == MODE_CBC
@@ -262,7 +262,7 @@ class PEP272Cipher(ABC):
 
         out = []
 
-        for block in _block(string, self.block_size):
+        for block in split_blocks(string, self.block_size):
             if self.mode == MODE_ECB:
                 dec = self.decrypt_block(self.key, block, **self.kwargs)
             else:  # self.mode == MODE_CBC
@@ -316,7 +316,7 @@ class PEP272Cipher(ABC):
         """Encrypts data in CFB mode."""
         out = []
 
-        for block in _block(data, self.segment_size // 8):
+        for block in split_blocks(data, self.segment_size // 8):
             encrypted_iv = self.encrypt_block(self.key, self._status)
             ecd = xor_strings(encrypted_iv, block)
 
@@ -347,24 +347,3 @@ class PEP272Cipher(ABC):
 
             for k in self._status:
                 yield b_ord(k)
-
-
-def _block(bytestring, block_size):
-    """Splits bytestring in block_size-sized blocks.
-
-    Raises an error if len(string) % blocksize != 0.
-    """
-    if block_size == 1:
-        return map(b_chr, bytearray(bytestring))
-
-    rest_size = len(bytestring) % block_size
-
-    if rest_size:
-        raise ValueError("Input 'bytestring' must be a multiple of "
-                         "block_size / segment_size (CFB mode) in length")
-
-    block_count = len(bytestring) // block_size
-
-    return (
-        bytestring[i * block_size:((i + 1) * block_size)]
-        for i in range(block_count))
