@@ -27,7 +27,7 @@ Example:
 from abc import abstractmethod, ABCMeta
 
 from .util import xor_strings, b_chr, b_ord
-from .version import *
+from .version import *  # noqa
 
 
 MODE_ECB = 1  #:
@@ -48,32 +48,35 @@ class PEP272Cipher(object):
     :param int mode: The mode of operation to use.\
         For valid values see Reference/:ref:`api-modes`.
     :param \\**kwargs: See below.
-    
+
     Depending on the blockcipher mode of operation one or multiple of the
     following arguments must be passed depending on the mode of operation.
 
     :Keyword arguments:
 
-        - **IV** or **iv** (`bytes`) -- \
-            A unique bytestring with once the block size in \
-            length. For security reasons it should be unpredictable and must \
-            never be used twice for the same key. \
-            \
-            **Required for**: *CBC*, *CFB* and *OFB* modes. 
+        *
+            **IV** or **iv** (`bytes`) --
+            A unique bytestring with once the block size in
+            length. For security reasons it should be unpredictable and must
+            never be used twice for the same key.
 
-        * **segment_size** (`int`) -- \
-            The segment size for one encryption "segment" of \
-            CFB mode in bits. It must be multiple of 8 (only byte-sized \
-            operations are allowed) and the maximum size is the block size. \
-            \
-            **Required for**: *CFB* mode.
+            **Required for**: *CBC*, *CFB* and *OFB*
 
-        * **counter** (`callable`) -- \
-            A callable object returning bytes with the \
-            length of one block. For security reasons the output of the counter \
-            must never be the same twice. \
-            \
-            **Required for**: *CTR* mode.
+        *
+            **segment_size** (`int`) --
+            The segment size for one encryption "segment" of
+            CFB mode in bits. It must be multiple of 8 (only byte-sized
+            operations are allowed) and the maximum size is the block size.
+
+            **Required for**: *CFB*
+
+        *
+            **counter** (`callable`) --
+            A callable object returning bytes with the
+            length of one block. For security reasons the output of the
+            counter must never be the same twice.
+
+            **Required for**: *CTR*
 
 
     Additional keyword arguments are passed to the underlying block cipher.
@@ -103,7 +106,6 @@ class PEP272Cipher(object):
         self._check_arguments()
         self._keystream = self._create_keystream()
 
-
     def _check_arguments(self):
         """
         Checks if all required keyword arguments have been set.
@@ -111,7 +113,6 @@ class PEP272Cipher(object):
         Tests for:
             - IV when using MODE_CBC, MODE_CFB, MODE_OFB
             - callable counter with MODE_CTR
-
         """
         if self.mode in (MODE_CBC, MODE_CFB, MODE_OFB, MODE_PGP):
             if self._status is None:
@@ -121,7 +122,8 @@ class PEP272Cipher(object):
                 raise ValueError("'IV' length must be block_size ({})".format(
                     self.block_size))
             elif self.mode == MODE_PGP:
-                if not len(self._status) in (self.block_size, self.block_size+2):
+                if not len(self._status) in (self.block_size,
+                                             self.block_size+2):
                     raise ValueError(
                         ("'IV' length must be block_size ({})"
                          "or blocksize + 2".format(self.block_size)))
@@ -142,41 +144,41 @@ class PEP272Cipher(object):
             if not callable(self._counter):
                 raise TypeError("counter must be a callable, it is not")
 
-
     def encrypt(self, string):
         """Encrypt data with the key and the parameters set at initialization.
-    
+
         The cipher object is stateful; encryption of a long block
         of data can be broken up in two or more calls to `encrypt()`.
         That is, the statement:
-            
+
             >>> c.encrypt(a) + c.encrypt(b)
-        
+
         is always equivalent to:
-        
+
              >>> c.encrypt(a+b)
-        
+
         That also means that you cannot reuse an object for encrypting
         or decrypting other data with the same key.
-        
+
         This function does not perform any padding.
-        
+
          - For `MODE_ECB`, `MODE_CBC` *string* length
            (in bytes) must be a multiple of *block_size*.
-        
+
          - For `MODE_CFB`, *string* length (in bytes) must be a multiple
            of *segment_size*/8.
-        
+
          - For `MODE_CTR` and `MODE_OFB`, *string* can be of any length.
-        
+
         :param bytes string: The piece of data to encrypt.
         :raises ValueError:
             When a mode of operation has be requested this code cannot handle.
         :raises ValueError:
             When len(string) has a wrong length, as described above.
         :raises TypeError:
-            When the counter callable in CTR returns data with the wrong length.
-            
+            When the counter callable in CTR returns data with the wrong
+            length.
+
         :return:
             The encrypted data, as a byte string. It is as long as
             *string*.
@@ -206,7 +208,7 @@ class PEP272Cipher(object):
                 elif self.mode == MODE_CBC:
                     xored = xor_strings(self._status, block)
                     ecd = self._status = self.encrypt_block(self.key, xored,
-                                                       **self.kwargs)
+                                                            **self.kwargs)
 
                 out.append(ecd)
 
@@ -215,41 +217,40 @@ class PEP272Cipher(object):
 
         return b"".join(out)
 
-
     def decrypt(self, string):
         """Decrypt data with the key and the parameters set at initialization.
-    
+
         The cipher object is stateful; decryption of a long block
         of data can be broken up in two or more calls to `decrypt()`.
         That is, the statement:
-            
+
             >>> c.decrypt(a) + c.decrypt(b)
-        
+
         is always equivalent to:
-        
+
              >>> c.decrypt(a+b)
-        
+
         That also means that you cannot reuse an object for encrypting
         or decrypting other data with the same key.
-        
+
         This function does not perform any padding.
-        
+
          - For `MODE_ECB`, `MODE_CBC` *string* length
            (in bytes) must be a multiple of *block_size*.
-        
+
          - For `MODE_CFB`, *string* length (in bytes) must be a multiple
            of *segment_size*/8.
-        
+
          - For `MODE_CTR` and `MODE_OFB`, *string* can be of any length.
-        
+
         :param bytes string: The piece of data to decrypt.
         :raises ValueError:
             When a mode of operation has be requested this code cannot handle.
         :raises ValueError:
             When len(string) has a wrong length, as described above.
         :raises TypeError:
-            When the counter callable in CTR returns data with the wrong length.
-            
+            When the counter in CTR returns data of the wrong length.
+
         :return:
             The decrypted data, as a byte string. It is as long as
             *string*.
@@ -277,7 +278,8 @@ class PEP272Cipher(object):
                 if self.mode == MODE_ECB:
                     dec = self.decrypt_block(self.key, block, **self.kwargs)
                 elif self.mode == MODE_CBC:
-                    decrypted_but_not_xored = self.decrypt_block(self.key, block,
+                    decrypted_but_not_xored = self.decrypt_block(self.key,
+                                                                 block,
                                                                  **self.kwargs)
                     dec = xor_strings(self._status, decrypted_but_not_xored)
                     self._status = block
@@ -322,9 +324,8 @@ class PEP272Cipher(object):
     def _encrypt_with_keystream(self, data):
         "Encrypts data with the set keystream."
         xor = [x ^ y for (x, y) in zip(map(b_ord, data),
-                                              self._keystream)]
+                                       self._keystream)]
         return bytes(bytearray(xor))  # Faster
-
 
     def _create_keystream(self):
         "Creates a keystream (generator object) for OFB or CTR mode."
@@ -349,16 +350,16 @@ class PEP272Cipher(object):
 def _block(bytestring, block_size):
     """Splits bytestring in block_size-sized blocks.
 
-Raises an error if len(string) % blocksize != 0.
-"""
+    Raises an error if len(string) % blocksize != 0.
+    """
     if block_size == 1:
         return map(b_chr, bytearray(bytestring))
 
     rest_size = len(bytestring) % block_size
 
     if rest_size:
-        raise ValueError("Input 'bytestring' must be a multiple of block_size / "
-                         "segment_size (CFB mode) in length")
+        raise ValueError("Input 'bytestring' must be a multiple of "
+                         "block_size / segment_size (CFB mode) in length")
 
     block_count = len(bytestring) // block_size
 
