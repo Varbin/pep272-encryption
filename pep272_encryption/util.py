@@ -205,7 +205,7 @@ class Counter:
                  iv=None, IV=None, block_size=None, endian="big",
                  wrap_around=False):
         try:
-            self.endian = _endian_dict.get(endian.lower())
+            self.endian = _endian_dict[endian.lower()]
         except KeyError:
             raise ValueError(
                 "Invalid endian specified, possible are either "

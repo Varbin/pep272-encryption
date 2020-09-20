@@ -6,6 +6,7 @@ from pep272_encryption import PEP272Cipher
 from pep272_encryption import \
      MODE_ECB, MODE_CBC, MODE_CFB, \
      MODE_PGP, MODE_CTR, MODE_OFB
+from pep272_encryption.util import Counter
 
 import unittest
 
@@ -227,6 +228,20 @@ class InvalidModeTestCase(unittest.TestCase):
             d.decrypt(b' ')        
 
         self.assertTrue("Unknown mode of operation" in str(context.exception))
+
+
+class ExceptionsInCounterTestCase(unittest.TestCase):
+    def test_invalid_endian(self):
+        with self.assertRaises(ValueError) as e:
+            Counter(endian='bla')
+
+        self.assertIn("Invalid endian", e.exception.args[0])
+
+    def test_iv_nonce(self):
+        with self.assertRaises(ValueError) as e:
+            Counter(iv=b'123', nonce=b'123')
+
+        self.assertIn("'iv' may not be used with", e.exception.args[0])
 
 
 if __name__ == "__main__":
