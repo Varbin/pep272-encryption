@@ -1,10 +1,10 @@
 """
 Utility library for compatibility with Python 2 and 3.
+A counter to use with CTR is also included.
 
-This includes versions of ``chr`` and ``ord``-methods to work with bytes
+There are versions of ``chr`` and ``ord``-methods to work with bytes
 with Python 3 and strings with Python 2.
 
-A counter to use with CTR is also included.
 """
 
 import codecs

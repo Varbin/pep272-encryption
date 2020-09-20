@@ -14,22 +14,20 @@ Structure
 This documentation is structured.
 
 It starts with the :ref:`install` instructions.
-The second chapter is :ref:`tutorial`, giving a quick example without
-explaining too much. The :ref:`howto` gives practical solutions
-to common problems. Look up in the :ref:`api`.
-The :ref:`discussion` section explains in-depth knowledge of topics important 
+In the second chapter there are examples and guides.
+Look up in the :ref:`library`.
+The :ref:`discuss` section explains in-depth knowledge of topics important
 in the context of the library to get a deeper understanding of the software.
 
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
 
-   install.rst
-   tutorial.rst
-   howto.rst
-   api.rst
-   discussion.rst
-   ack.rst
+   1_install.rst
+   2_example.rst
+   3_library.rst
+   4_discuss.rst
+   5_sources.rst
 
 .. include:: ../CHANGELOG.rst
 

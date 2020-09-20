@@ -1,3 +1,5 @@
+.. _sources:
+
 Acknowledgements and Sources
 ============================
 
