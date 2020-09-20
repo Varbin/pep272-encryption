@@ -7,10 +7,7 @@ from pep272_encryption import \
      MODE_ECB, MODE_CBC, MODE_CFB, \
      MODE_PGP, MODE_CTR, MODE_OFB
 
-try:
-    import unittest2 as unittest
-except ImportError:
-    import unittest
+import unittest
 
 TEST_KEY = b'\00' * 16
 TEST_IV = b'\00' * 16
