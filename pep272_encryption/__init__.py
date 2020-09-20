@@ -187,33 +187,23 @@ class PEP272Cipher(object):
         if self.mode in (MODE_OFB, MODE_CTR):
             return self._encrypt_with_keystream(string)
 
+        if self.mode == MODE_CFB:
+            return self._encrypt_cfb(string)
+
+        if self.mode not in (MODE_ECB, MODE_CBC):
+            raise ValueError("Unknown mode of operation")
+
         out = []
 
-        if self.mode == MODE_CFB:
-            for block in _block(string, self.segment_size // 8):
-                encrypted_iv = self.encrypt_block(self.key, self._status)
-                ecd = xor_strings(encrypted_iv, block)
+        for block in _block(string, self.block_size):
+            if self.mode == MODE_ECB:
+                ecd = self.encrypt_block(self.key, block, **self.kwargs)
+            else:  # self.mode == MODE_CBC
+                xored = xor_strings(self._status, block)
+                ecd = self._status = self.encrypt_block(self.key, xored,
+                                                        **self.kwargs)
 
-                iv_p1 = self._status[self.segment_size//8:]
-                iv_p2 = ecd
-
-                self._status = iv_p1 + iv_p2
-
-                out.append(ecd)
-
-        elif self.mode in (MODE_ECB, MODE_CBC):
-            for block in _block(string, self.block_size):
-                if self.mode == MODE_ECB:
-                    ecd = self.encrypt_block(self.key, block, **self.kwargs)
-                elif self.mode == MODE_CBC:
-                    xored = xor_strings(self._status, block)
-                    ecd = self._status = self.encrypt_block(self.key, xored,
-                                                            **self.kwargs)
-
-                out.append(ecd)
-
-        else:
-            raise ValueError("Unknown mode of operation")
+            out.append(ecd)
 
         return b"".join(out)
 
@@ -259,35 +249,25 @@ class PEP272Cipher(object):
         if self.mode in (MODE_OFB, MODE_CTR):
             return self.encrypt(string)
 
+        if self.mode == MODE_CFB:
+            return self._encrypt_cfb(string, True)
+
+        if self.mode not in (MODE_ECB, MODE_CBC):
+            raise ValueError("Unknown mode of operation")
+
         out = []
 
-        if self.mode == MODE_CFB:
-            for block in _block(string, self.segment_size // 8):
-                encrypted_iv = self.encrypt_block(self.key, self._status)
-                dec = xor_strings(encrypted_iv, block)
+        for block in _block(string, self.block_size):
+            if self.mode == MODE_ECB:
+                dec = self.decrypt_block(self.key, block, **self.kwargs)
+            else:  # self.mode == MODE_CBC
+                decrypted_but_not_xored = self.decrypt_block(self.key,
+                                                             block,
+                                                             **self.kwargs)
+                dec = xor_strings(self._status, decrypted_but_not_xored)
+                self._status = block
 
-                iv_p1 = self._status[self.segment_size//8:]
-                iv_p2 = block
-
-                self._status = iv_p1 + iv_p2
-
-                out.append(dec)
-
-        elif self.mode in (MODE_ECB, MODE_CBC):
-            for block in _block(string, self.block_size):
-                if self.mode == MODE_ECB:
-                    dec = self.decrypt_block(self.key, block, **self.kwargs)
-                elif self.mode == MODE_CBC:
-                    decrypted_but_not_xored = self.decrypt_block(self.key,
-                                                                 block,
-                                                                 **self.kwargs)
-                    dec = xor_strings(self._status, decrypted_but_not_xored)
-                    self._status = block
-
-                out.append(dec)
-
-        else:
-            raise ValueError("Unknown mode of operation")
+            out.append(dec)
 
         return b"".join(out)
 
@@ -322,10 +302,27 @@ class PEP272Cipher(object):
         raise NotImplementedError
 
     def _encrypt_with_keystream(self, data):
-        "Encrypts data with the set keystream."
+        """Encrypts data with the set keystream."""
         xor = [x ^ y for (x, y) in zip(map(b_ord, data),
                                        self._keystream)]
         return bytes(bytearray(xor))  # Faster
+
+    def _encrypt_cfb(self, data, decrypt=False):
+        """Encrypts data in CFB mode."""
+        out = []
+
+        for block in _block(data, self.segment_size // 8):
+            encrypted_iv = self.encrypt_block(self.key, self._status)
+            ecd = xor_strings(encrypted_iv, block)
+
+            iv_p1 = self._status[self.segment_size // 8:]
+            iv_p2 = block if decrypt else ecd
+
+            self._status = iv_p1 + iv_p2
+
+            out.append(ecd)
+
+        return b"".join(out)
 
     def _create_keystream(self):
         "Creates a keystream (generator object) for OFB or CTR mode."
