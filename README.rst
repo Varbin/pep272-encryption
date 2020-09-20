@@ -14,7 +14,7 @@
     :target: https://pep272-encryption.readthedocs.io/en/latest/?badge=latest
     :alt: Documentation Status
 
-`Documentation <https://sbiewald.de/docs/pep272-encryption/>`_
+`Documentation <https://pep272-encryption.readthedocs.io/en/latest/>`_
 
 To prevent reinventing the wheel while creating a 
 `PEP-272 <https://www.python.org/dev/peps/pep-0272/>`_ interface for a new 

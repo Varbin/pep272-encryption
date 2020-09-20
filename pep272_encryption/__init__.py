@@ -24,6 +24,8 @@ Example:
 
 """
 
+from abc import abstractmethod, ABCMeta
+
 from .util import xor_strings, b_chr, b_ord
 from .version import *
 
@@ -79,6 +81,8 @@ class PEP272Cipher(object):
     .. _PEP-272: https://www.python.org/dev/peps/pep-0272/
 
     """
+    __metaclass__ = ABCMeta
+
     block_size = NotImplemented
     IV = None
 
@@ -285,6 +289,7 @@ class PEP272Cipher(object):
 
         return b"".join(out)
 
+    @abstractmethod
     def encrypt_block(self, key, block, **kwargs):
         """Dummy function for the encryption of a single block.
         Overwrite with 'real' encryption function.
@@ -299,6 +304,7 @@ class PEP272Cipher(object):
         :rtype: bytes"""
         raise NotImplementedError
 
+    @abstractmethod
     def decrypt_block(self, key, block, **kwargs):
         """Dummy function for the decryption of a single block.
         Overwrite with 'real' deryption function.
