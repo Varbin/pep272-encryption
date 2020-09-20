@@ -1,4 +1,5 @@
 import struct
+
 from pep272_encryption import PEP272Cipher
 from pep272_encryption import MODE_ECB, MODE_CBC, MODE_CFB, MODE_OFB, \
                               MODE_CTR
