@@ -2,7 +2,7 @@
 #include <Python.h>
 
 #include <stdlib.h>
-#include <stdio.h>
+
 
 static PyObject* fast_xor(PyObject *self, PyObject *args, PyObject *kwargs) {
     Py_ssize_t a_length, b_length, length;
@@ -12,8 +12,6 @@ static PyObject* fast_xor(PyObject *self, PyObject *args, PyObject *kwargs) {
                          &a, &a_length, &b, &b_length)) {
         return NULL;
     }
-
-    printf("%ld %ld\n", a_length, b_length);
 
     if (NULL == a || NULL == b) {
         PyErr_SetString(PyExc_TypeError, "One of the parameters is None");
