@@ -25,6 +25,7 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
     - run: |
+        python setup.py build_ext --inplace
         python -m coverage run -p --source=pep272_encryption setup.py test
     - uses: actions/setup-python@v2
       with:
