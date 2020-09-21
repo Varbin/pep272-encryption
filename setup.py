@@ -84,7 +84,8 @@ args = dict(
         'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 3',
         'Topic :: Security :: Cryptography',
-        'Topic :: Software Development :: Libraries'
+        'Topic :: Software Development :: Libraries',
+        'Typing :: Typed'
     ],
     setup_requires=['pytest-runner'],
     tests_require=['pytest', 'pycryptodome'],
