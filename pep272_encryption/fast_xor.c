@@ -26,7 +26,8 @@ static PyObject* fast_xor(PyObject *self, PyObject *args, PyObject *kwargs) {
 
     out = malloc(length);
 
-    for (Py_ssize_t i = 0; i < length; i++) {
+    Py_ssize_t i;
+    for (i = 0; i < length; i++) {
         out[i] = a[i] ^ b[i];
     }
 
