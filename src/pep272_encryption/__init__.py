@@ -32,7 +32,12 @@ except ImportError:
     from abc import ABCMeta
     ABC = ABCMeta('ABC', (object,), {})
 
-from .util import xor_strings, b_chr, b_ord, split_blocks
+try:
+    from collections.abc import Mapping
+except ImportError:
+    from collections import Mapping
+
+from .util import xor_strings, b_chr, b_ord, split_blocks, Counter
 from .version import *  # noqa
 
 
@@ -111,6 +116,53 @@ class PEP272Cipher(ABC):
         self._check_arguments()
         self._keystream = self._create_keystream()
 
+    def _check_iv(self):
+        if self._status is None:
+            raise TypeError("For CBC, CFB, PGP and OFB mode an IV is "
+                            "required.")
+        if len(self._status) != self.block_size and self.mode != MODE_PGP:
+            raise ValueError("'IV' length must be block_size ({})".format(
+                self.block_size))
+        elif self.mode == MODE_PGP:
+            if not len(self._status) in (self.block_size,
+                                         self.block_size + 2):
+                raise ValueError(
+                    ("'IV' length must be block_size ({})"
+                     "or blocksize + 2".format(self.block_size)))
+
+    def _check_segment_size(self):
+        if not self.segment_size:
+            raise TypeError("missing required positional argument for CFB:"
+                            " 'segment_size'")
+        if not (8 <= self.segment_size <= self.block_size * 8) or (
+                self.segment_size % 8):
+            raise TypeError("segment_size must be between 8 and "
+                            "block_size*8 and a multiple of 8")
+
+    def _check_counter(self):
+        if self._counter is None:
+            raise TypeError(
+                "missing required positional argument for CTR:"
+                " 'counter'")
+
+        if callable(self._counter):
+            return
+
+        if isinstance(self._counter, Mapping):
+            counter = self._counter
+
+            self._counter = Counter(
+                nonce=counter['prefix'],
+                initial_value=counter['initial_value'],
+                suffix=counter['suffix'],
+                block_size=counter['counter_len'],
+                endian=["big", "little"][counter["little_endian"]]
+            )
+
+            return
+
+        raise TypeError("counter must be a callable, it is not")
+
     def _check_arguments(self):
         """
         Checks if all required keyword arguments have been set.
@@ -120,34 +172,13 @@ class PEP272Cipher(ABC):
             - callable counter with MODE_CTR
         """
         if self.mode in (MODE_CBC, MODE_CFB, MODE_OFB, MODE_PGP):
-            if self._status is None:
-                raise TypeError("For CBC, CFB, PGP and OFB mode an IV is "
-                                "required.")
-            if len(self._status) != self.block_size and self.mode != MODE_PGP:
-                raise ValueError("'IV' length must be block_size ({})".format(
-                    self.block_size))
-            elif self.mode == MODE_PGP:
-                if not len(self._status) in (self.block_size,
-                                             self.block_size+2):
-                    raise ValueError(
-                        ("'IV' length must be block_size ({})"
-                         "or blocksize + 2".format(self.block_size)))
+            self._check_iv()
 
         if self.mode == MODE_CFB:
-            if not self.segment_size:
-                raise TypeError("missing required positional argument for CFB:"
-                                " 'segment_size'")
-            if not (8 <= self.segment_size <= self.block_size*8) or (
-                    self.segment_size % 8):
-                raise TypeError("segment_size must be between 8 and "
-                                "block_size*8 and a multiple of 8")
+            self._check_segment_size()
 
         if self.mode == MODE_CTR:
-            if self._counter is None:
-                raise TypeError("missing required positional argument for CTR:"
-                                " 'counter'")
-            if not callable(self._counter):
-                raise TypeError("counter must be a callable, it is not")
+            self._check_counter()
 
     def encrypt(self, string):
         """Encrypt data with the key and the parameters set at initialization.

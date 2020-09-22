@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from Crypto.Cipher import AES
+from Crypto.Util import Counter
 from pep272_encryption import PEP272Cipher
 
 
@@ -90,6 +91,10 @@ def test_ctr():
     # Unfortunately PyCryptome is not PEP compliant anymore.
     nullcipher = Identity(TEST_KEY, AES.MODE_CTR, counter=FakeCounter())
     assert nullcipher.encrypt(TEST_BLOCK) == FakeCounter()()*3
+
+    reference, compare = cipher_objects(AES.MODE_CTR, counter=Counter.new(128))
+    assert reference.encrypt(TEST_BLOCK) == compare.encrypt(TEST_BLOCK)
+    assert reference.encrypt(TEST_BLOCK) == compare.encrypt(TEST_BLOCK)
     
 
 if __name__ == "__main__":
