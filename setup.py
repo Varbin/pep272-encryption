@@ -78,6 +78,12 @@ args = dict(
     description='Library for easy creation of PEP-272 cipher classes',
     long_description=long_description,
 
+    project_urls={
+        'Documentation': 'https://pep272-encryption.readthedocs.org',
+        'Source': 'https://github.com/Varbin/pep272-encryption',
+        'Tracker': 'https://github.com/Varbin/pep272-encryption/issues'
+    },
+
     packages=['pep272_encryption'],
     package_dir={'': 'src'},
     package_data={
