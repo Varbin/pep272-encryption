@@ -80,6 +80,9 @@ args = dict(
 
     packages=['pep272_encryption'],
     package_dir={'': 'src'},
+    package_data={
+        "": ["py.typed", "*.pyi"],
+    },
 
     classifiers=[
         'License :: CC0 1.0 Universal (CC0 1.0) Public Domain Dedication',
