@@ -44,7 +44,7 @@ def get_file(name):
         return ''
 
 
-META_FILE = get_file("pep272_encryption/version.py")
+META_FILE = get_file("src/pep272_encryption/version.py")
 
 
 def find_meta(meta):
@@ -79,6 +79,8 @@ args = dict(
     long_description=long_description,
 
     packages=['pep272_encryption'],
+    package_dir={'': 'src'},
+
     classifiers=[
         'License :: CC0 1.0 Universal (CC0 1.0) Public Domain Dedication',
         'Programming Language :: Python :: 2',
@@ -97,7 +99,7 @@ if BUILD_EXTENSION:
     n_args = args.copy()
     n_args["ext_modules"] = [
         Extension('pep272_encryption._fast_xor',
-                  sources=['pep272_encryption/fast_xor.c'],
+                  sources=['src/pep272_encryption/fast_xor.c'],
                   optional=True,
                   py_limited_api=True)
     ]
