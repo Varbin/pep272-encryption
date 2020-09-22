@@ -1,5 +1,6 @@
 from abc import abstractmethod
-from typing import Any, ByteString, Callable, Generator, Mapping, Union, Optional
+from typing import Any, ByteString, Callable, Generator, Mapping, Optional, \
+    Union
 
 from abc import ABC
 
@@ -25,8 +26,19 @@ class PEP272Cipher(ABC):
     _status: ByteString
     _keystream: Optional[Generator[int, None, None]]
 
+    def __init__(self, key: ByteString, mode: int, IV: ByteString = None, *,
+                 counter: Union[Callable[[], ByteString], Mapping] = None,
+                 segment_size: int = 0,
+                 **kwargs):
+        ...
 
-    def __init__(self, key: ByteString, mode: int, **kwargs):
+    def _check_iv(self) -> None:
+        ...
+
+    def _check_segment_size(self) -> None:
+        ...
+
+    def _check_counter(self) -> None:
         ...
 
     def _check_arguments(self) -> None:

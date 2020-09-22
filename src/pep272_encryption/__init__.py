@@ -99,17 +99,21 @@ class PEP272Cipher(ABC):
     block_size = NotImplemented
     IV = None
 
-    def __init__(self, key, mode, **kwargs):
+    def __init__(self, key, mode, IV=None, *ignored,
+                 counter=None, segment_size=-1, **kwargs):
         "A cipher class as defined in PEP-272"
         if not key:
             raise ValueError("'key' cannot have a length of 0")
+        if ignored:
+            raise TypeError("__init__() takes 4 positional arguments, "
+                            "but {} were given".format(4+len(i)))
         self.key = key
         self.mode = mode
-        self.IV = kwargs.pop('IV', None) or kwargs.pop('iv', None)
+        self.IV = IV or kwargs.pop('iv', None)
         self._status = self.IV
 
-        self.segment_size = kwargs.pop('segment_size', 8)
-        self._counter = kwargs.pop('counter', None)
+        self.segment_size = segment_size
+        self._counter = counter
 
         self.kwargs = kwargs
 
@@ -134,6 +138,10 @@ class PEP272Cipher(ABC):
         if not self.segment_size:
             raise TypeError("missing required positional argument for CFB:"
                             " 'segment_size'")
+
+        if self.segment_size < 0:
+            self.segment_size = 8
+
         if not (8 <= self.segment_size <= self.block_size * 8) or (
                 self.segment_size % 8):
             raise TypeError("segment_size must be between 8 and "
