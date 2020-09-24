@@ -20,7 +20,7 @@
 # -- Project information -----------------------------------------------------
 
 project = 'pep272-encryption'
-copyright = '2018, Simon Biewald'
+copyright = '2020, Simon Biewald'
 author = 'Simon Biewald'
 
 # The short X.Y version
@@ -168,7 +168,10 @@ texinfo_documents = [
 # -- Options for intersphinx extension ---------------------------------------
 
 # Example configuration for intersphinx: refer to the Python standard library.
-intersphinx_mapping = {'https://docs.python.org/3/': None}
+intersphinx_mapping = {
+    'python': ('https://docs.python.org/3/', None),
+    'pycryptodome:': ('https://www.pycryptodome.org/en/latest/', None)
+}
 
 # -- Options for todo extension ----------------------------------------------
 
