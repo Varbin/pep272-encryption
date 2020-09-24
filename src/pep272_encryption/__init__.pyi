@@ -17,7 +17,7 @@ class PEP272Cipher(ABC):
 
     IV: Union[None, ByteString]
 
-    key: ByteString
+    key: Any
     kwargs: Mapping[str, Any]
     mode: int
     segment_size: int
@@ -26,7 +26,7 @@ class PEP272Cipher(ABC):
     _status: ByteString
     _keystream: Optional[Generator[int, None, None]]
 
-    def __init__(self, key: ByteString, mode: int, IV: ByteString = None, *,
+    def __init__(self, key: Any, mode: int, IV: ByteString = None, *,
                  counter: Union[Callable[[], ByteString], Mapping] = None,
                  segment_size: int = 0,
                  **kwargs):

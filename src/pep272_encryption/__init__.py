@@ -53,11 +53,27 @@ class PEP272Cipher(ABC):
     """
     A cipher class as defined in PEP-272_.
 
-    Following parameters must be passed in every case:
-
     :param bytes key: The symmetric key to use for encryption.
-    :param int mode: The mode of operation to use.\
-        For valid values see Reference/:ref:`api-modes`.
+
+    :param int mode: The mode of operation to use.
+            For valid values see Reference/:ref:`api-modes`.
+
+    :param bytes IV: A unique bytestring with once the block size in
+            length. For security reasons it should be unpredictable and must
+            never be used twice for the same key.
+            Required for *CBC*, *CFB* and *OFB* mode of operation.
+
+    :param int segment_size: The segment size for one encryption "segment" of
+            CFB mode in bits. It must be multiple of 8 (only byte-sized
+            operations are allowed) and the maximum size is the block size * 8.
+            Required for *CFB* mode of operation.
+
+    :param counter:
+            A callable object returning *block size* bytes or a counter
+            from :py:mod:`Crypto.Util.Counter`. For security reasons the
+            counter output must **never** repeat. Required for *CTR* mode.
+
+
     :param \\**kwargs: See below.
 
     Depending on the blockcipher mode of operation one or multiple of the
@@ -66,31 +82,20 @@ class PEP272Cipher(ABC):
     :Keyword arguments:
 
         *
-            **IV** or **iv** (`bytes`) --
-            A unique bytestring with once the block size in
-            length. For security reasons it should be unpredictable and must
-            never be used twice for the same key.
-
-            **Required for**: *CBC*, *CFB* and *OFB*
+            **iv** (`bytes`) -- Alternative name for **IV**
 
         *
-            **segment_size** (`int`) --
-            The segment size for one encryption "segment" of
-            CFB mode in bits. It must be multiple of 8 (only byte-sized
-            operations are allowed) and the maximum size is the block size.
-
-            **Required for**: *CFB*
-
-        *
-            **counter** (`callable`) --
-            A callable object returning bytes with the
-            length of one block. For security reasons the output of the
-            counter must never be the same twice.
-
-            **Required for**: *CTR*
+            Additional keyword arguments are passed to the underlying block
+            cipher.
 
 
-    Additional keyword arguments are passed to the underlying block cipher.
+    .. versionchanged:: 0.4
+        *IV* can be used as a positional argument.
+
+    .. versionchanged:: 0.4
+       PyCryptodome counters are accepted for *counter* in addition to
+       to callables.
+
 
     .. _PEP-272: https://www.python.org/dev/peps/pep-0272/
 
@@ -106,7 +111,7 @@ class PEP272Cipher(ABC):
             raise ValueError("'key' cannot have a length of 0")
         if ignored:
             raise TypeError("__init__() takes 4 positional arguments, "
-                            "but {} were given".format(4+len(i)))
+                            "but {} were given".format(4+len(ignored)))
         self.key = key
         self.mode = mode
         self.IV = IV or kwargs.pop('iv', None)
