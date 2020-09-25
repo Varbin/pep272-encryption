@@ -60,3 +60,7 @@ License
 
 This project is `CC0 <https://creativecommons.org/publicdomain/zero/1.0/>`_ licensed
 (= public domain).
+
+.. image:: https://licensebuttons.net/p/zero/1.0/88x31.png
+   :target: https://creativecommons.org/publicdomain/zero/1.0/
+   :alt: CC0 Public Domain
