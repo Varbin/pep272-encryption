@@ -63,16 +63,6 @@ class PEP272Cipher(ABC):
             never be used twice for the same key.
             Required for *CBC*, *CFB* and *OFB* mode of operation.
 
-    :param int segment_size: The segment size for one encryption "segment" of
-            CFB mode in bits. It must be multiple of 8 (only byte-sized
-            operations are allowed) and the maximum size is the block size * 8.
-            Required for *CFB* mode of operation.
-
-    :param counter:
-            A callable object returning *block size* bytes or a counter
-            from :py:mod:`Crypto.Util.Counter`. For security reasons the
-            counter output must **never** repeat. Required for *CTR* mode.
-
 
     :param \\**kwargs: See below.
 
@@ -85,8 +75,20 @@ class PEP272Cipher(ABC):
             **iv** (`bytes`) -- Alternative name for **IV**
 
         *
+            **segment_size** (`int`): The segment size for one encryption
+            "segment" of CFB mode in bits. It must be multiple of 8
+            (only byte-sized operations are allowed) and the maximum size is
+            the block size * 8. Required for *CFB* mode of operation.
+
+        *
+            **counter** (`callable`):
+            A callable object returning *block size* bytes or a counter
+            from :py:mod:`Crypto.Util.Counter`. For security reasons the
+            counter output must **never** repeat. Required for *CTR* mode.
+
+        *
             Additional keyword arguments are passed to the underlying block
-            cipher.
+            cipher implementation as kwargs.
 
 
     .. versionchanged:: 0.4
@@ -104,21 +106,18 @@ class PEP272Cipher(ABC):
     block_size = NotImplemented
     IV = None
 
-    def __init__(self, key, mode, IV=None, *ignored,
-                 counter=None, segment_size=-1, **kwargs):
+    def __init__(self, key, mode, IV=None, **kwargs):
         "A cipher class as defined in PEP-272"
         if not key:
             raise ValueError("'key' cannot have a length of 0")
-        if ignored:
-            raise TypeError("__init__() takes 4 positional arguments, "
-                            "but {} were given".format(4+len(ignored)))
+
         self.key = key
         self.mode = mode
         self.IV = IV or kwargs.pop('iv', None)
         self._status = self.IV
 
-        self.segment_size = segment_size
-        self._counter = counter
+        self.segment_size = kwargs.pop('segment_size', -1)
+        self._counter = kwargs.pop('counter', None)
 
         self.kwargs = kwargs
 

@@ -92,7 +92,9 @@ def test_ctr():
     nullcipher = Identity(TEST_KEY, AES.MODE_CTR, counter=FakeCounter())
     assert nullcipher.encrypt(TEST_BLOCK) == FakeCounter()()*3
 
-    reference, compare = cipher_objects(AES.MODE_CTR, counter=Counter.new(128))
+    reference, _ = cipher_objects(AES.MODE_CTR, counter=Counter.new(128))
+    _, compare = cipher_objects(AES.MODE_CTR, counter=Counter.new(128))
+
     assert reference.encrypt(TEST_BLOCK) == compare.encrypt(TEST_BLOCK)
     assert reference.encrypt(TEST_BLOCK) == compare.encrypt(TEST_BLOCK)
     
