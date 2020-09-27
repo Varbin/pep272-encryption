@@ -8,12 +8,18 @@ New
 ***
 
 - Type hints
-- Build manylinux wheels
+- Build manylinux wheels, universal wheel is limited to Python 2 and PyPy
+- In addition to callables, the *counter* argument for CTR mode now accepts counters from PyCryptodome now
 
 Changed
 *******
 
-- Extension module is in pure C, removing the requirement of Cython
+- Extension module is in pure C, instead of being written in Cython
+- *__init__* signature is slightly different:
+
+  - *IV* can be given as a positional argument
+  - *counter* and *segment_size* are keyword only,
+    but are named
 
 0.3 - 2019-06-14
 ----------------
