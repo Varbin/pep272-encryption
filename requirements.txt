@@ -5,3 +5,4 @@ setuptools>=27.3
 wheel
 sphinx
 sphinx_rtd_theme
+coverage
