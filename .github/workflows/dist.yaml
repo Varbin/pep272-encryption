@@ -81,7 +81,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
       - name: sdist
-        run: python setup.py sdist --formats zip,gztar
+        run: python setup.py sdist --formats gztar
       - name: bdist_wheel
         run: python setup.py bdist_wheel --exclude-extension --universal
       - name: "Rename wheel"
@@ -89,9 +89,14 @@ jobs:
         run: |
           $version = (python setup.py --fullname)
           $version = $version.Split("-", $version.Split("-").Length-1) -join "_"
-          $tagPyPyAnd2 = "py2.pp35.pp36.pp37-none-any"
+          $shortTags = "py2","pp35","pp36","pp38"
+          $tagPyPyAnd2 = "$($shortTags -join '.')-none-any"
+          $allTags = ($shortTags |% {"$_-none-any"}) -join ","
           $tagUniversal = "py2.py3-none-any"
-          Move-Item ./dist/$version-$tagUniversal.whl ./dist/$version-$tagPyPyAnd2.whl
+
+          python .github/_replace_tags_in_wheel.py ./dist/$version-$tagUniversal.whl ./dist/$version-$tagPyPyAnd2.whl $allTags
+
+          Remove-Item ./dist/$version-$tagUniversal.whl
       - name: Upload
         uses: actions/upload-artifact@v2
         with:
