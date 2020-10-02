@@ -15,11 +15,7 @@ Changed
 *******
 
 - Extension module is in pure C, instead of being written in Cython
-- *__init__* signature is slightly different:
-
-  - *IV* can be given as a positional argument
-  - *counter* and *segment_size* are keyword only,
-    but are named
+- *__init__* signature is slightly different: *IV* can be given as a positional argument
 
 0.3 - 2019-06-14
 ----------------
