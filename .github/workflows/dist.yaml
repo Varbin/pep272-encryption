@@ -4,31 +4,29 @@ on: [push]
 
 jobs:
   wheels-macos:
-    runs-on: ${{ matrix.os }}
-
+    runs-on: macos-latest
     strategy:
       matrix:
-        os: [macos-10.15]
-        python-version: [3.6]
+        python:
+          - download_url: 'https://www.python.org/ftp/python/3.8.5/python-3.8.5-macosx10.9.pkg'
+            python: '/Library/Frameworks/Python.framework/Versions/3.8/bin/python3'
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Set up Python ${{ matrix.python-version }} (64-bit)
-      uses: actions/setup-python@v2
-      with:
-        python-version: ${{ matrix.python-version }}
-        architecture: 'x64'
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
-    - name: Build abi3 wheel (64-bit)
-      run: |
-        python setup.py bdist_wheel --py-limited-api cp35
-    - name: Upload
-      uses: actions/upload-artifact@v2
-      with:
-        path: dist/*
+      - uses: actions/checkout@master
+      - run: |
+          curl "${{ matrix.python.download_url }}" -o python.pkg
+          sudo installer -pkg python.pkg -target /
+      - name: Install dependencies
+        run: |
+          ${{ matrix.python.python }} -m pip install --user -U pip wheel
+          ${{ matrix.python.python }} -m pip install --user -r requirements.txt
+      - name: Build abi3 wheel (64-bit)
+        run: |
+          ${{ matrix.python.python }} setup.py bdist_wheel --py-limited-api cp35
+      - name: Upload
+        uses: actions/upload-artifact@v2
+        with:
+          path: dist/*
 
   wheels-windows:
     runs-on: windows-2019
