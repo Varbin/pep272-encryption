@@ -10,7 +10,7 @@ jobs:
         python:
           - download_url: 'https://www.python.org/ftp/python/3.7.6/python-3.7.6-macosx10.6.pkg'
             python: '/Library/Frameworks/Python.framework/Versions/3.7/bin/python3'
-          - download_url: 'https://www.python.org/ftp/python/3.9.1/python-3.9.1-macosx11.0.pkg'
+          - download_url: 'https://www.python.org/ftp/python/3.9.1/python-3.9.1-macos11.0.pkg'
             python: '/Library/Frameworks/Python.framework/Versions/3.9.1/bin/python3'
 
     steps:
