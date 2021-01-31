@@ -208,9 +208,9 @@ class Counter:
             self.endian = _endian_dict[endian.lower()]
         except KeyError:
             raise ValueError(
-                "Invalid endian specified, possible are either "
-                "big ('big', '>', '!') or litte ('little', '<')"
-                "are possible values!")
+                "Invalid endian specified, possible values are either "
+                "big ('big', '>', '!') or little ('little', '<')"
+                "endian!")
 
         self.block_size = block_size or self.block_size
         self.value = initial_value
