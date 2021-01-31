@@ -11,7 +11,7 @@ def b_chr(ordinal: int) -> bytes:
 def b_ord(byte: Union[bytes, int]) -> int:
     ...
 
-def from_bytes(bytestring: ByteString, byteorder: str) -> bytes:
+def from_bytes(bytestring: ByteString, byteorder: str) -> int:
     ...
 
 def to_bytes(integer: int, length: int, byteorder: str) -> bytes:
