@@ -16,6 +16,10 @@ Changed
 
 - Extension module is in pure C, instead of being written in Cython
 - *__init__* signature is slightly different: *IV* can be given as a positional argument
+- ``PEP272Cipher.IV`` does change again when using one of CBC, CFB or OFB modes.
+  This behaviour is PEP-272 compliant (" After encrypting or decrypting a string, this value is updated to reflect
+  the modified feedback text."), including it being read-only now ("It is read-only, and cannot be assigned a new
+  value.")
 
 0.3 - 2019-06-14
 ----------------

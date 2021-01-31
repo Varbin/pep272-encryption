@@ -104,7 +104,18 @@ class PEP272Cipher(ABC):
     """
 
     block_size = NotImplemented
-    IV = None
+
+    @property
+    def IV(self):
+        if self.mode in (MODE_ECB, MODE_CTR):
+            return None
+        else:
+            return self._status
+
+    @IV.setter
+    def IV(self, value):
+        raise AttributeError("This property is read-only, and cannot be "
+                             "assigned a new value")
 
     def __init__(self, key, mode, IV=None, **kwargs):
         "A cipher class as defined in PEP-272"
@@ -113,8 +124,7 @@ class PEP272Cipher(ABC):
 
         self.key = key
         self.mode = mode
-        self.IV = IV or kwargs.pop('iv', None)
-        self._status = self.IV
+        self._status = IV or kwargs.pop('iv', None)
 
         self.segment_size = kwargs.pop('segment_size', -1)
         self._counter = kwargs.pop('counter', None)
