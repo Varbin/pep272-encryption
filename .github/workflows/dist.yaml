@@ -4,12 +4,12 @@ on: [push]
 
 jobs:
   wheels-macos:
-    runs-on: macos-latest
+    runs-on: macos-11.0
     strategy:
       matrix:
         python:
-          - download_url: 'https://www.python.org/ftp/python/3.8.5/python-3.8.5-macosx10.9.pkg'
-            python: '/Library/Frameworks/Python.framework/Versions/3.8/bin/python3'
+          - download_url: 'https://www.python.org/ftp/python/3.7.6/python-3.7.6-macosx10.6.pkg'
+            python: '/Library/Frameworks/Python.framework/Versions/3.7/bin/python3'
 
     steps:
       - uses: actions/checkout@master
