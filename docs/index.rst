@@ -27,9 +27,8 @@ in the context of the library to get a deeper understanding of the software.
    2_example.rst
    3_library.rst
    4_discuss.rst
-   5_sources.rst
-
-.. include:: ../CHANGELOG.rst
+   5_changes.rst
+   6_sources.rst
 
 Indices and tables
 ==================

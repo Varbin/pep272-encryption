@@ -39,9 +39,9 @@ Sources
 
 Block cipher mode of operation: `Wikipedia/Block cipher mode of operation`_
 
-"TEA, a Tiny Encryption Algorithm": `Original Paper`_
+"TEA, a Tiny Encryption Algorithm": `DOI 10.1007/3-540-60590-8_29`_
 
 .. _Wikipedia/Block cipher mode of operation: https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation
-.. _Original Paper: ./_static/tea.pdf
+.. _DOI 10.1007/3-540-60590-8_29: https://doi.org/10.1007/3-540-60590-8_29
 
 
