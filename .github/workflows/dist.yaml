@@ -10,8 +10,10 @@ jobs:
         python:
           - download_url: 'https://www.python.org/ftp/python/3.7.6/python-3.7.6-macosx10.6.pkg'
             python: '/Library/Frameworks/Python.framework/Versions/3.7/bin/python3'
+            archflags: '-arch i386 -arch x86_64'
           - download_url: 'https://www.python.org/ftp/python/3.9.1/python-3.9.1-macos11.0.pkg'
             python: '/Library/Frameworks/Python.framework/Versions/3.9/bin/python3'
+            archflags: '-arch arm64 -arch x86_64'
 
     steps:
       - uses: actions/checkout@master
@@ -24,6 +26,7 @@ jobs:
           ${{ matrix.python.python }} -m pip install --user -r requirements.txt
       - name: Build abi3 wheel (64-bit)
         run: |
+          export ARCHFLAGS="${{ matrix.python.archflags }}"
           ${{ matrix.python.python }} setup.py bdist_wheel --py-limited-api cp35
       - run: lipo -info build/*/*/*.so
       - name: Upload
