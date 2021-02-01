@@ -25,6 +25,7 @@ jobs:
       - name: Build abi3 wheel (64-bit)
         run: |
           ${{ matrix.python.python }} setup.py bdist_wheel --py-limited-api cp35
+      - run: lipo -info build/*/*/*.so
       - name: Upload
         uses: actions/upload-artifact@v2
         with:
