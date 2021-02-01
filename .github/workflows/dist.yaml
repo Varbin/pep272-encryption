@@ -15,7 +15,7 @@ jobs:
           - download_url: 'https://www.python.org/ftp/python/3.9.1/python-3.9.1-macos11.0.pkg'
             python: '/Library/Frameworks/Python.framework/Versions/3.9/bin/python3'
             archflags: '-arch arm64 -arch x86_64'
-            sdkroot: '/Library/Developer/CommandLineTools/SDKs/MacOSX11.0.sdk/'
+            sdkroot: '/Library/Developer/CommandLineTools/SDKs/MacOSX11.1.sdk/'
 
     steps:
       - uses: actions/checkout@master
