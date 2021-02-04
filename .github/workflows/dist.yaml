@@ -23,7 +23,8 @@ jobs:
       - uses: actions/checkout@master
       - run: |
           curl "${{ matrix.python.download_url }}" -o python.pkg
-          (echo "${{ matrix.python.sha384 }} python.pkg" | shasum -a 384 -c) || exit 1
+          echo "${{ matrix.python.sha384 }} python.pkg" > python.pkg.sha384
+          shasum -a 384 -c python.pkg.sha384 || exit 1
           sudo installer -pkg python.pkg -target /
       - name: Install dependencies
         run: |
