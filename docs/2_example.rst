@@ -13,10 +13,10 @@ Implementing a block cipher
 0. The TEA block cipher
 ***********************
 
-In this example, the a PEP-272 interface for the TEA block cipher is created.
+In this example, a PEP-272 interface for the TEA block cipher is created.
 TEA uses 128-bit (16 bytes) keys and 64-bit (8 bytes) blocks.
 
-In Python, an unoptimized version of TEA can be written like following:
+Below is an simple implementation of TEA:
 
 ::
 
@@ -89,6 +89,8 @@ override `encrypt_block` and `decrypt_block` methods:
 
    def new(*args, **kwargs):
        return TEACipher(*args, **kwargs)
+
+You successfully have written a PEP 272 interface for TEA.
 
 3. Complete example
 *******************

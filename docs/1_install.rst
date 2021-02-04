@@ -30,7 +30,7 @@ Supported platforms
 *******************
 
 ``pep272-encryption`` is pure Python with an optional C extension.
-They are pre-compiled for various operating systems and cpu architectures.
+There are pre-compiled for various operating systems and cpu architectures.
 
 Python 2.7 and 3.5+ are supported and tested.
-The module should work on 3.3 and 3.4, but there are not automated tests for those versions.
+The module should work on 3.3 and 3.4, but there are no automated tests for those versions.
