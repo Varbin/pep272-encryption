@@ -4,17 +4,26 @@ on: [push]
 
 jobs:
   wheels-macos:
-    runs-on: macos-latest
+    runs-on: macos-10.15
     strategy:
       matrix:
         python:
-          - download_url: 'https://www.python.org/ftp/python/3.8.5/python-3.8.5-macosx10.9.pkg'
-            python: '/Library/Frameworks/Python.framework/Versions/3.8/bin/python3'
+          - download_url: 'https://www.python.org/ftp/python/3.7.6/python-3.7.6-macosx10.6.pkg'
+            sha384: '7b794a55c1e5eaf8a07a118d70b90f5743cccdb1c795574c2e9efc4b6239e943c1da41afae884712dbfaa3a48acfa9f5'
+            python: '/Library/Frameworks/Python.framework/Versions/3.7/bin/python3'
+            archflags: '-arch i386 -arch x86_64'
+            sdkroot: ''
+          - download_url: 'https://www.python.org/ftp/python/3.9.1/python-3.9.1-macos11.0.pkg'
+            sha384: '74c3345604768466e18f75744b68854aab5694f87cd85e8f9a326275cae43bfed181264f09734faa1e745d9264241019'
+            python: '/Library/Frameworks/Python.framework/Versions/3.9/bin/python3'
+            archflags: '-arch arm64 -arch x86_64'
+            sdkroot: '/Library/Developer/CommandLineTools/SDKs/MacOSX11.1.sdk/'
 
     steps:
       - uses: actions/checkout@master
       - run: |
           curl "${{ matrix.python.download_url }}" -o python.pkg
+          [[ `openssl sha384 -hex python.pkg | egrep -o '[0-9a-f]{96}'` = "${{ matrix.python.sha384 }}" ]] || exit 1
           sudo installer -pkg python.pkg -target /
       - name: Install dependencies
         run: |
@@ -22,7 +31,12 @@ jobs:
           ${{ matrix.python.python }} -m pip install --user -r requirements.txt
       - name: Build abi3 wheel (64-bit)
         run: |
+          if [ -n "${{ matrix.python.sdkroot }}" ]; then
+            export SDKROOT="${{ matrix.python.sdkroot }}"
+          fi
+          export ARCHFLAGS="${{ matrix.python.archflags }}"
           ${{ matrix.python.python }} setup.py bdist_wheel --py-limited-api cp35
+      - run: lipo -info build/*/*/*.so
       - name: Upload
         uses: actions/upload-artifact@v2
         with:
@@ -108,9 +122,9 @@ jobs:
         image:
           - manylinux1_i686
           - manylinux1_x86_64
-          - manylinux2014_s390x
-          - manylinux2014_ppc64le
-          - manylinux2014_aarch64
+          # - manylinux2014_s390x
+          # - manylinux2014_ppc64le
+          # - manylinux2014_aarch64
 
     steps:
     - uses: actions/checkout@v2
