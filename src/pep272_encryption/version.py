@@ -11,7 +11,7 @@ Following are defined:
 __all__ = ['__version__', '__author__', '__email__', '__license__', '__url__']
 
 #:
-__version__ = "0.4.dev0"
+__version__ = "0.4"
 
 #:
 __author__ = "Simon Biewald"
