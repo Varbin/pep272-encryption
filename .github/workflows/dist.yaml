@@ -87,7 +87,7 @@ jobs:
         run: |
           $version = (python setup.py --fullname)
           $version = $version.Split("-", $version.Split("-").Length-1) -join "_"
-          $shortTags = "py2","pp35","pp36","pp38"
+          $shortTags = "py2","pp35","pp36","pp37","pp38","pp39"
           $tagPyPyAnd2 = "$($shortTags -join '.')-none-any"
           $allTags = ($shortTags |% {"$_-none-any"}) -join ","
           $tagUniversal = "py2.py3-none-any"
